@@ -1,0 +1,28 @@
+﻿@inject UserManager<User> UserManager
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dashboard</h2>
+
+<div>
+    <h4>Staffers' panel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="@((string)ViewData["Active"] == "Products" ? "active" : null )">
+                    <a asp-controller="Products" asp-action="Index">Products</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
