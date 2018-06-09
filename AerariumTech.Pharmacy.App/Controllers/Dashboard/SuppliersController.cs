@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using AerariumTech.Pharmacy.App.Data;
 using AerariumTech.Pharmacy.App.Extensions;
-using AerariumTech.Pharmacy.App.Models;
+using AerariumTech.Pharmacy.Data;
+using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

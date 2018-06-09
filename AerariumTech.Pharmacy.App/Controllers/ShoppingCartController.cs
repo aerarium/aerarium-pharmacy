@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AerariumTech.Pharmacy.App.Data;
 using AerariumTech.Pharmacy.App.Extensions;
-using AerariumTech.Pharmacy.App.Models;
 using AerariumTech.Pharmacy.App.Services;
+using AerariumTech.Pharmacy.Data;
+using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,26 +57,6 @@ namespace AerariumTech.Pharmacy.App.Controllers
             HttpContext.Session.Get<Product>("Cart");
 
             return null;
-        }
-        
-        [Route("category/{category?}")] // TODO THE FOLLOWING DOESNT BELONG HERE
-        public async Task<object> GetByCategory(string category)
-        {
-            if (category == null)
-            {
-            }
-
-            var products = _context.Products.Include(p => p.ProductCategories)
-                .ThenInclude(pc => pc.Category)
-                .Where(p =>
-                    p.ProductCategories.Select(pc => pc.Category.Name).Any(pn => pn == category));
-
-            if (!await products.AnyAsync())
-            {
-                return category + " not found";
-            }
-
-            return products;
         }
 
         public Task<IActionResult> ReduceAmountOf(Product product)

@@ -20,5 +20,28 @@
     <Compile Remove="Models\Person.cs" />
     <Compile Remove="Services\DashboardRoute.cs" />
     <Compile Remove="Services\ApiRoute.cs" />
+    <Compile Remove="Validations\**" />
+    <Compile Remove="Data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AerariumTech.Pharmacy.Data\AerariumTech.Pharmacy.Data.csproj" />
+    <ProjectReference Include="..\AerariumTech.Pharmacy.Domain\AerariumTech.Pharmacy.Domain.csproj" />
+    <ProjectReference Include="..\AerariumTech.Pharmacy.Models\AerariumTech.Pharmacy.Models.csproj" />
+    <ProjectReference Include="..\AerariumTech.Pharmacy.Validations\AerariumTech.Pharmacy.Validations.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Validations\**" />
+    <EmbeddedResource Remove="Data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Validations\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Validations\**" />
+    <Content Remove="Data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages" />
   </ItemGroup>
 </Project>

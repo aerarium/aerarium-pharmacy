@@ -5,6 +5,14 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AerariumTech.Pharmacy.App", "AerariumTech.Pharmacy.App\AerariumTech.Pharmacy.App.csproj", "{E36409B1-BC33-486A-A71D-69E641A9712A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AerariumTech.Pharmacy.Domain", "AerariumTech.Pharmacy.Domain\AerariumTech.Pharmacy.Domain.csproj", "{5AE791D6-268C-4E85-AE8A-8F946659E590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AerariumTech.Pharmacy.Validations", "AerariumTech.Pharmacy.Validations\AerariumTech.Pharmacy.Validations.csproj", "{328A046E-B44F-417C-A950-CF8769200840}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AerariumTech.Pharmacy.Data", "AerariumTech.Pharmacy.Data\AerariumTech.Pharmacy.Data.csproj", "{6665B98C-2C99-456B-91CE-056C6678509B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AerariumTech.Pharmacy.Models", "AerariumTech.Pharmacy.Models\AerariumTech.Pharmacy.Models.csproj", "{9350A09E-D122-444E-B0EF-D39D735124C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{E36409B1-BC33-486A-A71D-69E641A9712A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36409B1-BC33-486A-A71D-69E641A9712A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36409B1-BC33-486A-A71D-69E641A9712A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AE791D6-268C-4E85-AE8A-8F946659E590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AE791D6-268C-4E85-AE8A-8F946659E590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AE791D6-268C-4E85-AE8A-8F946659E590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AE791D6-268C-4E85-AE8A-8F946659E590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328A046E-B44F-417C-A950-CF8769200840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328A046E-B44F-417C-A950-CF8769200840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328A046E-B44F-417C-A950-CF8769200840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328A046E-B44F-417C-A950-CF8769200840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6665B98C-2C99-456B-91CE-056C6678509B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6665B98C-2C99-456B-91CE-056C6678509B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6665B98C-2C99-456B-91CE-056C6678509B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6665B98C-2C99-456B-91CE-056C6678509B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9350A09E-D122-444E-B0EF-D39D735124C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9350A09E-D122-444E-B0EF-D39D735124C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9350A09E-D122-444E-B0EF-D39D735124C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9350A09E-D122-444E-B0EF-D39D735124C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

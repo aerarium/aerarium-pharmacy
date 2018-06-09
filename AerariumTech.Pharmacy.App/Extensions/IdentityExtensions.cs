@@ -1,12 +1,14 @@
 ﻿using System.Threading.Tasks;
-using AerariumTech.Pharmacy.App.Models;
+using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Extensions
 {
     public static class IdentityExtensions
     {
-        public static async Task<RoleManager<Role>> EnsureCreatedAppRolesAsync(this RoleManager<Role> manager)
+        public static async Task<RoleManager<Role>> EnsureCreatedAppRolesAsync(
+            this RoleManager<Role> manager)
         {
             var roles = new[] {"Admin"};
 
@@ -18,7 +20,13 @@ namespace AerariumTech.Pharmacy.App.Extensions
             return manager;
         }
 
-        private static async Task CreateRoleIfNotExistsAsync(this RoleManager<Role> manager, string role)
+        public static async Task<User> FindByCPFAsync(this UserManager<User> manager, string cpf)
+        {
+            return await manager.Users.FirstOrDefaultAsync(u => u.Cpf == cpf);
+        }
+
+        private static async Task CreateRoleIfNotExistsAsync(this RoleManager<Role> manager,
+            string role)
         {
             if (!await manager.RoleExistsAsync(role))
             {
@@ -26,7 +34,8 @@ namespace AerariumTech.Pharmacy.App.Extensions
             }
         }
 
-        private static async Task CreateUserIfNotExistsAsync(this UserManager<User> manager, User user, string password)
+        private static async Task CreateUserIfNotExistsAsync(this UserManager<User> manager,
+            User user, string password)
         {
             if (await manager.FindByEmailAsync(user.Email) == null)
             {
@@ -34,7 +43,8 @@ namespace AerariumTech.Pharmacy.App.Extensions
             }
         }
 
-        public static async Task<UserManager<User>> EnsureCreatedDevUsersAsync(this UserManager<User> manager)
+        public static async Task<UserManager<User>> EnsureCreatedDevUsersAsync(
+            this UserManager<User> manager)
         {
             var users = new[]
             {
@@ -47,11 +57,6 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 {
                     UserName = "admin",
                     Email = "admin@aerariumtech.com"
-                },
-                new User
-                {
-                    UserName = "guti",
-                    Email = "gutierrez@gmail.com"
                 }
             };
 

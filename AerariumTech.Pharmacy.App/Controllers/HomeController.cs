@@ -1,13 +1,11 @@
 ﻿using System.Diagnostics;
-using AerariumTech.Pharmacy.App.Models.SharedViewModels;
+using AerariumTech.Pharmacy.Models.SharedViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AerariumTech.Pharmacy.App.Controllers
 {
-    [Route("[action]")]
     public class HomeController : Controller
     {
-        [Route("/")]
         public IActionResult Index()
         {
             return View();
@@ -25,6 +23,11 @@ namespace AerariumTech.Pharmacy.App.Controllers
             ViewData["Message"] = "Your contact page.";
 
             return View();
+        }
+
+        public IActionResult FrequentlyAskedQuestions()
+        {
+            return null;
         }
 
         public IActionResult Error()

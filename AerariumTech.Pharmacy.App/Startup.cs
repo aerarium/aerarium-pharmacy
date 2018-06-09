@@ -1,7 +1,7 @@
 ﻿using System;
-using AerariumTech.Pharmacy.App.Data;
 using AerariumTech.Pharmacy.App.Extensions;
-using AerariumTech.Pharmacy.App.Models;
+using AerariumTech.Pharmacy.Data;
+using AerariumTech.Pharmacy.Domain;
 using AerariumTech.Pharmacy.App.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,8 +72,7 @@ namespace AerariumTech.Pharmacy.App
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-            PharmacyContext context,
-            RoleManager<Role> roleManager, UserManager<User> userManager)
+            PharmacyContext context, RoleManager<Role> roleManager, UserManager<User> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +90,8 @@ namespace AerariumTech.Pharmacy.App
 
             roleManager.EnsureCreatedAppRolesAsync().Wait();
             userManager.EnsureCreatedDevUsersAsync().Wait();
+
+            context.InjectDataAsync();
 
             app.UseSession();
 

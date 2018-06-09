@@ -1,19 +1,23 @@
 ﻿using System.Threading.Tasks;
-using AerariumTech.Pharmacy.App.Data;
 using AerariumTech.Pharmacy.App.Extensions;
-using AerariumTech.Pharmacy.App.Models;
-using AerariumTech.Pharmacy.App.Models.CategoriesViewModels;
+using AerariumTech.Pharmacy.App.Services;
+using AerariumTech.Pharmacy.Models.CategoriesViewModels;
+using AerariumTech.Pharmacy.Data;
+using AerariumTech.Pharmacy.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+// ReSharper disable UnusedParameter.Local
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [Route("Dashboard/[controller]/[action]/{id?}")]
+    [Authorize(Roles = "Administrator")]
+    [DashboardRoute]
     public class CategoriesController : Controller
     {
         private readonly PharmacyContext _context;
 
-        public CategoriesController(PharmacyContext context)
+        public CategoriesController(PharmacyContext context, object a)
         {
             _context = context;
         }

@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Core;
 using AerariumTech.Pharmacy.App.Extensions;
-using AerariumTech.Pharmacy.App.Models;
-using AerariumTech.Pharmacy.App.Models.ManageViewModels;
+using AerariumTech.Pharmacy.Models.ManageViewModels;
 using AerariumTech.Pharmacy.App.Services;
+using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

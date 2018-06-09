@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AerariumTech.Pharmacy.App.Models;
+using AerariumTech.Pharmacy.Domain;
 
 namespace AerariumTech.Pharmacy.App.Services
 {

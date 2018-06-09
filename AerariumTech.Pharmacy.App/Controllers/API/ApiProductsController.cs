@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AerariumTech.Pharmacy.App.Data;
-using AerariumTech.Pharmacy.App.Models;
+using AerariumTech.Pharmacy.App.Services;
+using AerariumTech.Pharmacy.Data;
+using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.API
 {
     [Produces("application/json")]
-    [Route("api/Products")]
+    [ApiRoute(nameof(ApiProductsController))]
     public class ApiProductsController : Controller
     {
         private readonly PharmacyContext _context;

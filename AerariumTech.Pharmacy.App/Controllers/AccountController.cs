@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Core;
 using AerariumTech.Pharmacy.App.Extensions;
-using AerariumTech.Pharmacy.App.Models;
-using AerariumTech.Pharmacy.App.Models.AccountViewModels;
+using AerariumTech.Pharmacy.Models.AccountViewModels;
 using AerariumTech.Pharmacy.App.Services;
+using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -104,7 +104,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new User {UserName = model.Name, Email = model.Email};
+                var user = AccountConverter.Convert(model);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
