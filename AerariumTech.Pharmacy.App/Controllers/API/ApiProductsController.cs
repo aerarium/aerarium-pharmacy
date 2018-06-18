@@ -10,9 +10,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.API
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="Controller"/>, which manages the products,
+    /// it's ideal for external uses, such as SPAs and mobile applications.
+    /// </summary>
     [Produces("application/json")]
     [ApiRoute(nameof(ApiProductsController))]
-    public class ApiProductsController : Controller
+    public class ApiProductsController : Controller // DEPRECATED
     {
         private readonly PharmacyContext _context;
 

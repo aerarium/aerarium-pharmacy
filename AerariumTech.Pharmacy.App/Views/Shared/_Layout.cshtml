@@ -1,66 +1,557 @@
 ﻿@{
-    // ReSharper disable PathNotResolved.Local
-    // ReSharper disable UnknownCssClass.Local
+    // ReSharper disable local UnknownCssClass
+    // ReSharper disable local UnusedParameter
+    // ReSharper disable local CssBrowserCompatibility
+    // ReSharper disable local Html.IdNotResolved
+    // ReSharper disable local Html.PathError
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <title>Farmacia Home ::</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta property="og:title" content="Vide"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="Vide" />
     <meta name="keywords" content="Pharmacy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
-    <script type="application/x-javascript">
-		addEventListener("load", function () {
-			setTimeout(hideURLbar, 0);
-		}, false);
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
-		function hideURLbar() {
-			window.scrollTo(0, 1);
-		}
-	</script>
     <!-- //for-mobile-apps -->
-    <link href="~/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <!-- Custom Theme files -->
-    <link href="~/css/style.css" rel='stylesheet' type='text/css'/>
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
     <!-- js -->
     <script src="~/js/jquery-1.11.1.min.js"></script>
     <!-- //js -->
     <!-- start-smoth-scrolling -->
-    <script type="text/javascript" src="~/js/move-top.js"></script>
-    <script type="text/javascript" src="~/js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event) {
-                event.preventDefault();
-                $('html,body').animate({
-                        scrollTop: $(this.hash).offset().top
-                    },
-                    1000);
-            });
-        });
-    </script>
     <!-- start-smoth-scrolling -->
     <link href="~/css/font-awesome.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet" type="text/css">
     <!--- start-rate---->
-    <script src="~/js/jstarbox.js"></script>
-    <link rel="stylesheet" href="~/css/jstarbox.css" type="text/css" media="screen" charset="utf-8"/>
+    <link rel="stylesheet" href="~/css/jstarbox.css" type="text/css" media="screen" />
+    <!---//End-rate---->
+
+</head>
+
+<body>
+    <a asp-area="" asp-controller="Home" asp-action="Index">
+        <img src="~/images/download.png" class="img-head" alt="">
+    </a>
+    <div class="header">
+        <div class="container">
+            <div class="head-t">
+                <ul class="card">
+                    <li>
+                        <a href="wishlist.html">
+                            <i class="fa fa-heart" aria-hidden="true"></i>Favoritos
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Account" asp-action="Login">
+                            <i class="fa fa-user" aria-hidden="true"></i>Login
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Account" asp-action="Register">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>Cadastro
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="About">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>Sobre
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="FrequentlyAskedQuestions">
+                            <i class="fa fa-ship" aria-hidden="true"></i>Perguntas Frequentes
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="header-ri">
+                <ul class="social-top">
+                    <li>
+                        <a href="#" class="icon facebook">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            <span></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="icon twitter">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                            <span></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="icon dribbble">
+                            <i class="fa fa-dribbble" aria-hidden="true"></i>
+                            <span></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-top">
+                <nav class="navbar navbar-default">
+
+                    <div class="navbar-header nav_2">
+                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a asp-area="" asp-controller="Home" asp-action="Index" class="hyper">
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown">
+                                    <span>
+                                        Medicamentos
+                                        <b class="caret"></b>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu multi">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Alergia">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Alergia
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Antibióticos">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Antibióticos
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Inflamação">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Inflamação
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Gripe & Resfriado">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Gripe & Resfriado
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Vitaminas & Suplementos">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Vitaminas & Suplementos
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Dor & Febre">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Dor & Febre
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Aparelho Respiratório">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Aparelho Respiratório
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Emagrecimento">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Emagrecimento
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Pressão Alta">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Pressão Alta
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3 w3l">
+                                            <a href="kitchen.html">
+                                                <img src="images/me.jpeg" class="img-responsive" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown">
+                                    <span>
+                                        Saúde & Bem Estar
+                                        <b class="caret"></b>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu multi multi1">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Alimentos & Bebidas">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Alimentos & Bebidas
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Dentadura">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Dentadura
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Lentes & Acessórios">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Lentes & Acessórios
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Suplementos Alimentares">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Suplementos Alimentares
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Ortopedia">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Ortopedia
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Nutricosméticos">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Nutricosméticos
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Meias de Compressão">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i> Meias de Compressão
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Preservativos & Lubrificantes">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Preservativos & Lubrificantes
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Produtos Naturais">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Produtos Naturais
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3 w3l">
+                                            <a href="care.html">
+                                                <img src="images/me2.jpg" class="img-responsive" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown">
+                                    <span>
+                                        Beleza & Proteção
+                                        <b class="caret"></b>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu multi multi2">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Cabelos">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Cabelos
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Colônias & Perfume">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Colônias & Perfume
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Corpo & Rosto">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Corpo & Rosto
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Mãos & Pés">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Mãos & Pés
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Maquiagem">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Maquiagem
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Máscaras">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Máscaras
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <ul class="multi-column-dropdown">
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Proteção Solar">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Proteção Solar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Tinturas">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Tinturas
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Unhas">
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>Unhas
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3 w3l">
+                                            <a href="hold.html">
+                                                <img src="images/me1.png" class="img-responsive" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a asp-area="" asp-controller="Home" asp-action="Contact" class="hyper">
+                                    <span>Contato</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="hyper">
+                                    <span></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="cart">
+
+                    <span class="fa fa-shopping-cart my-cart-icon">
+                        <span class="badge badge-notify my-cart-badge"></span>
+                    </span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--content-->
+    <div class="content-top">
+        <div class="container">
+            <div class="spec">
+                <h3>Mais Procurados</h3>
+                <div class="ser-t">
+                    <b></b>
+                    <span>
+                        <i></i>
+                    </span>
+                    <b class="line"></b>
+                </div>
+            </div>
+            <div class="tab-head">
+                <nav class="nav-sidebar">
+                    <ul class="nav tabs">
+                        <li class="active">
+                            <a href="#tab1" data-toggle="tab">Medicamentos</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab2" data-toggle="tab">Saude & Bem Estar</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab3" data-toggle="tab">Beleza & Proteção</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--content-->
+    @RenderBody()
+    <!--footer-->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 footer-grid">
+                <h3>Sobre</h3>
+                <p>...</p>
+            </div>
+            <div class="col-md-3 footer-grid ">
+                <h3>Menu</h3>
+                <ul>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <a href="kitchen.html">Medicamentos</a>
+                    </li>
+                    <li>
+                        <a href="care.html">Saúde & Bem Estar</a>
+                    </li>
+                    <li>
+                        <a href="hold.html">Beleza & Proteção</a>
+                    </li>
+                    <li>
+                        <a href="codes.html">Short Codes</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Contact">Contato</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid ">
+                <h3>Serviços</h3>
+                <ul>
+                    <li>
+                        <a href="terms.html">Termos & Condições</a>
+                    </li>
+                    <li>
+                        <a href="offer.html">Compra Online</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h3>Minha Conta</h3>
+                <ul>
+                    <li>
+                        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Account" asp-action="Register">Cadastro</a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html">Favoritos</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+            <div class="footer-bottom">
+                <h2>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <b>
+                            <br>
+                            <br>
+                        </b>FarmNat
+                        <span>Manipulação</span>
+                    </a>
+                </h2>
+                <p class="fo-para"></p>
+                <ul class="social-fo">
+                    <li>
+                        <a href="#" class=" face">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class=" twi">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class=" dri">
+                            <i class="fa fa-dribbble" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class=" address">
+                    <div class="col-md-4 fo-grid1">
+                        <p>
+                            <i class="fa fa-home" aria-hidden="true"></i> Av. Albert Einstein, 604
+                        </p>
+                    </div>
+                    <div class="col-md-4 fo-grid1">
+                        <p>
+                            <i class="fa fa-phone" aria-hidden="true"></i>Telefone: (11) 3596-2546 || Celular: (11) 98515-4675
+                        </p>
+                    </div>
+                    <div class="col-md-4 fo-grid1">
+                        <p>
+                            <a href="mailto:farmnat@gmail.com">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>FarmNat@gmail.com
+                            </a>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+            <div class="copy-right">
+                <p> &copy; @DateTime.Today.Year FarmNat.| Design by AerariumTech
+            </div>
+        </div>
+    </div>
+    <!-- //footer-->
+    <a href="#" id="toTop" style="display: block;">
+        <span id="toTopHover" style="opacity: 1;"> </span>
+    </a>
+    <!-- smooth scrolling -->
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <script type="text/javascript" src="~/js/move-top.js"></script>
+    <script type="text/javascript" src="~/js/easing.js"></script>
+
     <script type="text/javascript">
-        jQuery(function() {
-            jQuery('.starbox').each(function() {
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                },
+                    1000);
+            });
+        });
+    </script>
+
+    <script src="~/js/jstarbox.js"></script>
+
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery('.starbox').each(function () {
                 var starbox = jQuery(this);
                 starbox.starbox({
                     average: starbox.attr('data-start-value'),
                     changeable: starbox.hasClass('unchangeable')
                         ? false
                         : starbox.hasClass('clickonce')
-                        ? 'once'
-                        : true,
+                            ? 'once'
+                            : true,
                     ghosting: starbox.hasClass('ghosting'),
                     autoUpdateAverage: starbox.hasClass('autoupdate'),
                     buttons: starbox.hasClass('smooth')
@@ -68,7 +559,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         : starbox.attr('data-button-count') || 5,
                     stars: starbox.attr('data-star-count') || 5
                 }).bind('starbox-value-changed',
-                    function(event, value) {
+                    function (event, value) {
                         if (starbox.hasClass('random')) {
                             var val = Math.random();
                             starbox.next().text(' ' + val);
@@ -79,1311 +570,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         });
     </script>
-    <!---//End-rate---->
+    <script>
+        window.jQuery || document.write('<script src="/js/vendor/jquery-1.11.1.min.js"><\/script>')
+    </script>
+    <script src="js/jquery.vide.min.js"></script>
 
-</head>
-
-<body>
-<a href="offer.html">
-    <img src="~/images/download.png" class="img-head" alt="">
-</a>
-<div class="header">
-<div class="container">
-<div class="head-t">
-    <ul class="card">
-        <li>
-            <a href="wishlist.html">
-                <i class="fa fa-heart" aria-hidden="true"></i>Favoritos
-            </a>
-        </li>
-        <li>
-            <a asp-area="" asp-controller="Account" asp-action="Login">
-                <i class="fa fa-user" aria-hidden="true"></i>Login
-            </a>
-        </li>
-        <li>
-            <a asp-area="" asp-controller="Account" asp-action="Register">
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>Cadastro
-            </a>
-        </li>
-        <li>
-            <a asp-area="" asp-controller="Home" asp-action="About">
-                <i class="fa fa-file-text-o" aria-hidden="true"></i>Sobre
-            </a>
-        </li>
-        <li>
-            <a asp-area="" asp-controller="Home" asp-action="FrequentlyAskedQuestions">
-                <i class="fa fa-ship" aria-hidden="true"></i>Perguntas Frequentes
-            </a>
-        </li>
-    </ul>
-</div>
-
-<div class="header-ri">
-    <ul class="social-top">
-        <li>
-            <a href="#" class="icon facebook">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-                <span></span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="icon twitter">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-                <span></span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="icon dribbble">
-                <i class="fa fa-dribbble" aria-hidden="true"></i>
-                <span></span>
-            </a>
-        </li>
-    </ul>
-</div>
-
-<div class="nav-top">
-<nav class="navbar navbar-default">
-
-<div class="navbar-header nav_2">
-    <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-
-
-</div>
-<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-<ul class="nav navbar-nav">
-<li>
-    <a asp-area="" asp-controller="Home" asp-action="Index" class="hyper">
-        <span>Home</span>
-    </a>
-</li>
-
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown">
-        <span>
-            Medicamentos
-            <b class="caret"></b>
-        </span>
-    </a>
-    <ul class="dropdown-menu multi">
-        <div class="row">
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Alergia">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Alergia
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Antibióticos">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Antibióticos
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Inflamação">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Inflamação
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Gripe & Resfriado">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Gripe & Resfriado
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Vitaminas & Suplementos">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Vitaminas & Suplementos
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Dor & Febre">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Dor & Febre
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Aparelho Respiratório">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Aparelho Respiratório
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Emagrecimento">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Emagrecimento
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Pressão Alta">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Pressão Alta
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3 w3l">
-                <a href="kitchen.html">
-                    <img src="images/me.jpeg" class="img-responsive" alt="">
-                </a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </ul>
-</li>
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown">
-        <span>
-            Saúde & Bem Estar
-            <b class="caret"></b>
-        </span>
-    </a>
-    <ul class="dropdown-menu multi multi1">
-        <div class="row">
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Alimentos & Bebidas">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Alimentos & Bebidas
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Dentadura">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Dentadura
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Lentes & Acessórios">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Lentes & Acessórios
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Suplementos Alimentares">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Suplementos Alimentares
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Ortopedia">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Ortopedia
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Nutricosméticos">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Nutricosméticos
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Meias de Compressão">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i> Meias de Compressão
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Preservativos & Lubrificantes">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Preservativos & Lubrificantes
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Produtos Naturais">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Produtos Naturais
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="col-sm-3 w3l">
-                <a href="care.html">
-                    <img src="images/me2.jpg" class="img-responsive" alt="">
-                </a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </ul>
-</li>
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown">
-        <span>
-            Beleza & Proteção
-            <b class="caret"></b>
-        </span>
-    </a>
-    <ul class="dropdown-menu multi multi2">
-        <div class="row">
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Cabelos">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Cabelos
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Colônias & Perfume">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Colônias & Perfume
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Corpo & Rosto">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Corpo & Rosto
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Mãos & Pés">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Mãos & Pés
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Maquiagem">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Maquiagem
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Máscaras">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Máscaras
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <ul class="multi-column-dropdown">
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Proteção Solar">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Proteção Solar
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Tinturas">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Tinturas
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Unhas">
-                            <i class="fa fa-angle-right" aria-hidden="true"></i>Unhas
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3 w3l">
-                <a href="hold.html">
-                    <img src="images/me1.png" class="img-responsive" alt="">
-                </a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </ul>
-</li>
-
-<li>
-    <a asp-area="" asp-controller="Home" asp-action="Contact" class="hyper">
-        <span>Contato</span>
-    </a>
-</li>
-<li>
-    <a href="" class="hyper">
-        <span></span>
-    </a>
-</li>
-</ul>
-</div>
-</nav>
-<div class="cart">
-
-    <span class="fa fa-shopping-cart my-cart-icon">
-        <span class="badge badge-notify my-cart-badge"></span>
-    </span>
-</div>
-<div class="clearfix"></div>
-</div>
-
-</div>
-</div>
-<!---->
-<div data-vide-bg="video/video">
-    <div class="container">
-        <div class="banner-info">
-            <h3> </h3>
-            <div class="search-form">
-                <form action="#" method="post">
-                    <input type="text" placeholder="O que deseja encontrar?" name="Search...">
-                    <input type="submit" value=" ">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')
-</script>
-<script src="js/jquery.vide.min.js"></script>
-
-<!--content-->
-<div class="content-top">
-<div class="container">
-<div class="spec">
-    <h3>Mais Procurados</h3>
-    <div class="ser-t">
-        <b></b>
-        <span>
-            <i></i>
-        </span>
-        <b class="line"></b>
-    </div>
-</div>
-<div class="tab-head">
-<nav class="nav-sidebar">
-    <ul class="nav tabs">
-        <li class="active">
-            <a href="#tab1" data-toggle="tab">Medicamentos</a>
-        </li>
-        <li class="">
-            <a href="#tab2" data-toggle="tab">Saude & Bem Estar</a>
-        </li>
-        <li class="">
-            <a href="#tab3" data-toggle="tab">Beleza & Proteção</a>
-        </li>
-    </ul>
-</nav>
-<div class=" tab-content tab-content-t">
-<div class="tab-pane active text-style" id="tab1">
-    <div class=" con-w3l">
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal1" class="offer-img">
-                    <img src="images/of.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Polaramine.html">Polaramine Gotas </a>20ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$35,90</label>
-                            <em class="item_price">R$26,84</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b " data-id="1" data-name="Polaramine Gotas" data-summary="summary 1" data-price="1.50"
-                                data-quantity="1" data-image="images/of.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal2" class="offer-img">
-                    <img src="images/of1.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Aspirina.html">Aspirina </a>500mg
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$16,39</label>
-                            <em class="item_price">R$12,71</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="2" data-name="Aspirina com 20 Comprimidos" data-summary="summary 2"
-                                data-price="9.00" data-quantity="1" data-image="images/of1.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal3" class="offer-img">
-                    <img src="images/of2.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Sorine.html">Sorine Infantil </a>30ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$11,66</label>
-                            <em class="item_price">R$10,27</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="3" data-name="Sorine Infantil " data-summary="summary 3" data-price="2.00"
-                                data-quantity="1" data-image="images/of2.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img">
-                    <img src="images/of3.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Maalox.html">Maalox </a>240ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$19,72</label>
-                            <em class="item_price">R$18,93</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Antiácido Maalox" data-summary="summary 4" data-price="3.50"
-                                data-quantity="1" data-image="images/of3.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<div class="tab-pane  text-style" id="tab2">
-    <div class=" con-w3l">
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal5" class="offer-img">
-                    <img src="images/of4.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Vitergyl.html">Vitergyl C </a>1g
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$25,53</label>
-                            <em class="item_price">R$14,90</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="5" data-name="Vitergyl C" data-summary="summary 5" data-price="0.70"
-                                data-quantity="1" data-image="images/of4.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal6" class="offer-img">
-                    <img src="images/of5.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Redoxon.html">Redoxon Zinco </a>10g
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$20,54</label>
-                            <em class="item_price">R$16,43</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="6" data-name="Redoxon Zinco" data-summary="summary 6" data-price="0.70"
-                                data-quantity="1" data-image="images/of5.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal7" class="offer-img">
-                    <img src="images/of6.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Biotonico.html">Biotônico Fontoura </a>400ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$32,40</label>
-                            <em class="item_price">R$27,91</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="7" data-name="Biotônico Fontoura" data-summary="summary 7"
-                                data-price="1.00" data-quantity="1" data-image="images/of6.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal8" class="offer-img">
-                    <img src="images/of7.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="eno.html">Eno Sabor Laranja </a>100g
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$5,20</label>
-                            <em class="item_price">R$2,99</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="8" data-name="Eno Sabor Laranja" data-summary="summary 8" data-price="3.50"
-                                data-quantity="1" data-image="images/of7jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<div class="tab-pane text-style" id="tab3">
-    <div class=" con-w3l">
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal9" class="offer-img">
-                    <img src="images/of8.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="KitCapilar.html">Kit tratamento Capilar Pantene </a>60ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$19,39</label>
-                            <em class="item_price">R$17,50</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="9" data-name="Kit tratamento Capilar Pantene" data-summary="summary 9"
-                                data-price="1.50" data-quantity="1" data-image="images/of8.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal10" class="offer-img">
-                    <img src="images/of9.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Shampoo.html">Kit Shampoo & Condicionador Pantene </a>600ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$27,89</label>
-                            <em class="item_price">R$22,65</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="10" data-name="Kit Shampoo & Condicionador Pantene" data-summary="summary 10"
-                                data-price="0.70" data-quantity="1" data-image="images/of9.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal11" class="offer-img">
-                    <img src="images/of10.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Creme.html">Creme Pentear Pantene </a>240g
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$15,90</label>
-                            <em class="item_price">R$12,72</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="11" data-name="Creme Pentear Pantene" data-summary="summary 11"
-                                data-price="1.00" data-quantity="1" data-image="images/of10.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 m-wthree">
-            <div class="col-m">
-                <a href="#" data-toggle="modal" data-target="#myModal12" class="offer-img">
-                    <img src="images/of11.jpg" class="img-responsive" alt="">
-                    <div class="offer">
-                        <p>
-                            <span>Oferta</span>
-                        </p>
-                    </div>
-                </a>
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a href="Hidratante.html">Hidratante Nivea </a>400ml
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>R$15,90</label>
-                            <em class="item_price">R$13,90</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <button class="btn btn-danger my-cart-btn my-cart-b" data-id="12" data-name="Hidratante Nivea" data-summary="summary 12"
-                                data-price="3.50" data-quantity="1" data-image="images/of11.jpg">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-<!-- Carousel
-================================================== -->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <a href="kitchen.html">
-                <img class="first-slide" src="images/ba.jpg" alt="First slide">
-            </a>
-
-        </div>
-        <div class="item">
-            <a href="care.html">
-                <img class="second-slide " src="images/ba1.jpg" alt="Second slide">
-            </a>
-
-        </div>
-        <div class="item">
-            <a href="hold.html">
-                <img class="third-slide " src="images/ba2.jpg" alt="Third slide">
-            </a>
-
-        </div>
-    </div>
-
-</div>
-<!-- /.carousel -->
-
-<!--content-->
-<div class="product">
-<div class="container">
-<div class="spec">
-    <h3>Ofertas do Dia</h3>
-    <div class="ser-t">
-        <b></b>
-        <span>
-            <i></i>
-        </span>
-        <b class="line"></b>
-    </div>
-</div>
-<div class="con-w3l">
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal17" class="offer-img">
-            <img src="images/of16.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="Malvatricin.html">Malvatricin Spray </a>50ml
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$36,65</label>
-                    <em class="item_price">R$33,04</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add add-2">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="13" data-name="Malvatricin Spray" data-summary="summary 1"
-                        data-price="6.00" data-quantity="1" data-image="images/of16.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal18" class="offer-img">
-            <img src="images/of17.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="Bandagem.html">Bandagem Elastica... </a>3 uni
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$26,50</label>
-                    <em class="item_price">R$22,25</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="14" data-name="Bandagem Elastica... " data-summary="summary 1"
-                        data-price="22,25" data-quantity="1" data-image="images/of17.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal19" class="offer-img">
-            <img src="images/of18.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="Fio.html">Fio Dental Essential </a>100m
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$9,85</label>
-                    <em class="item_price">R$7,19</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="15" data-name="product 1" data-summary="summary 1" data-price="3.50"
-                        data-quantity="1" data-image="images/of18.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal20" class="offer-img">
-            <img src="images/of19.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="Venolise.html">Venolise 30 Comp... </a>26,7mg
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$84,22</label>
-                    <em class="item_price">R$65,27</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="16" data-name="product 1" data-summary="summary 1" data-price="0.80"
-                        data-quantity="1" data-image="images/of19.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal21" class="offer-img">
-            <img src="images/of20.png" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="Zyxem.html">Zyxem 10 Comp... </a>5ml
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$48,08</label>
-                    <em class="item_price">R$37,27</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="17" data-name="Zyxem 10 Comp... " data-summary="summary 1"
-                        data-price="37,27" data-quantity="1" data-image="images/of20.png">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal22" class="offer-img">
-            <img src="images/of21.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="fraldap.html">Fralda Pampers </a>16 uni
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$40,60</label>
-                    <em class="item_price">R$34,99</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="18" data-name="product 1" data-summary="summary 1" data-price="4.50"
-                        data-quantity="1" data-image="images/of21.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal23" class="offer-img">
-            <img src="images/of22.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="Loratamed.html">Loratamed </a>30mg
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$10,69</label>
-                    <em class="item_price">R$9,09</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="19" data-name="product 1" data-summary="summary 1" data-price="3.50"
-                        data-quantity="1" data-image="images/of22.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-3 pro-1">
-    <div class="col-m">
-        <a href="#" data-toggle="modal" data-target="#myModal24" class="offer-img">
-            <img src="images/of23.jpg" class="img-responsive" alt="">
-        </a>
-        <div class="mid-1">
-            <div class="women">
-                <h6>
-                    <a href="fraldah.html">Fralda Huggies</a> 20 uni
-                </h6>
-            </div>
-            <div class="mid-2">
-                <p>
-                    <label>R$45,90</label>
-                    <em class="item_price">R$32,55</em>
-                </p>
-                <div class="block">
-                    <div class="starbox small ghosting"> </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="add">
-                <button class="btn btn-danger my-cart-btn my-cart-b" data-id="20" data-name="product 1" data-summary="summary 1" data-price="0.80"
-                        data-quantity="1" data-image="images/of23.jpg">
-                    Adicionar ao Carrinho
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="clearfix"></div>
-</div>
-</div>
-</div>
-<!--footer-->
-<div class="footer">
-    <div class="container">
-        <div class="col-md-3 footer-grid">
-            <h3>Sobre</h3>
-            <p>...</p>
-        </div>
-        <div class="col-md-3 footer-grid ">
-            <h3>Menu</h3>
-            <ul>
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li>
-                    <a href="kitchen.html">Medicamentos</a>
-                </li>
-                <li>
-                    <a href="care.html">Saúde & Bem Estar</a>
-                </li>
-                <li>
-                    <a href="hold.html">Beleza & Proteção</a>
-                </li>
-                <li>
-                    <a href="codes.html">Short Codes</a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Contact">Contato</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-3 footer-grid ">
-            <h3>Serviços</h3>
-            <ul>
-                <li>
-                    <a href="terms.html">Termos & Condições</a>
-                </li>
-                <li>
-                    <a href="offer.html">Compra Online</a>
-                </li>
-
-            </ul>
-        </div>
-        <div class="col-md-3 footer-grid">
-            <h3>Minha Conta</h3>
-            <ul>
-                <li>
-                    <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Account" asp-action="Register">Cadastro</a>
-                </li>
-                <li>
-                    <a href="wishlist.html">Favoritos</a>
-                </li>
-
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-        <div class="footer-bottom">
-            <h2>
-                <a asp-area="" asp-controller="Home" asp-action="Index">
-                    <b>
-                        <br>
-                        <br>
-                    </b>FarmNat
-                    <span>Manipulação</span>
-                </a>
-            </h2>
-            <p class="fo-para"></p>
-            <ul class="social-fo">
-                <li>
-                    <a href="#" class=" face">
-                        <i class="fa fa-facebook" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class=" twi">
-                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class=" dri">
-                        <i class="fa fa-dribbble" aria-hidden="true"></i>
-                    </a>
-                </li>
-            </ul>
-            <div class=" address">
-                <div class="col-md-4 fo-grid1">
-                    <p>
-                        <i class="fa fa-home" aria-hidden="true"></i> Av. Albert Einstein, 604
-                    </p>
-                </div>
-                <div class="col-md-4 fo-grid1">
-                    <p>
-                        <i class="fa fa-phone" aria-hidden="true"></i>Telefone: (11) 3596-2546 || Celular: (11) 98515-4675
-                    </p>
-                </div>
-                <div class="col-md-4 fo-grid1">
-                    <p>
-                        <a href="mailto:farmnat@gmail.com">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>FarmNat@gmail.com
-                        </a>
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-
-            </div>
-        </div>
-        <div class="copy-right">
-            <p> &copy; @DateTime.Today.Year FarmNat.| Design by AerariumTech
-        </div>
-    </div>
-</div>
-<!-- //footer-->
-
-<!-- smooth scrolling -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        /*
-            var defaults = {
-            containerID: 'toTop', // fading element id
-            containerHoverID: 'toTopHover', // fading element hover id
-            scrollSpeed: 1200,
-            easingType: 'linear'
-            };
-        */
-        $().UItoTop({
-            easingType: 'easeOutQuart'
-        });
-    });
-</script>
-<a href="#" id="toTop" style="display: block;">
-    <span id="toTopHover" style="opacity: 1;"> </span>
-</a>
-<!-- //smooth scrolling -->
-<!-- for bootstrap working -->
-<script src="js/bootstrap.js"></script>
-<!-- //for bootstrap working -->
-<script type="text/javascript" src="js/jquery.mycart.js"></script>
-<script type="text/javascript">
-    $(function() {
-
-        var goToCartIcon = function($addTocartBtn) {
-            var $cartIcon = $(".my-cart-icon");
-            var $image = $('<img width="30px" height="30px" src="' +
-                $addTocartBtn.data("image") +
-                '"/>').css({
-                "position": "fixed",
-                "z-index": "999"
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /*
+                var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+                };
+            */
+            $().UItoTop({
+                easingType: 'easeOutQuart'
             });
-            $addTocartBtn.prepend($image);
-            var position = $cartIcon.position();
-            $image.animate({
-                    top: position.top,
-                    left: position.left
-                },
-                500,
-                "linear",
-                function() {
-                    $image.remove();
-                });
-        }
-
-        $('.my-cart-btn').myCart({
-            classCartIcon: 'my-cart-icon',
-            classCartBadge: 'my-cart-badge',
-            affixCartIcon: true,
-            checkoutCart: function(products) {
-                $.each(products,
-                    function() {
-                        console.log(this);
-                    });
-            },
-            clickOnAddToCart: function($addTocart) {
-                goToCartIcon($addTocart);
-            },
-            getDiscountPrice: function(products) {
-                var total = 0;
-                $.each(products,
-                    function() {
-                        total += this.quantity * this.price;
-                    });
-                return total * 1;
-            }
         });
-
-    });
-</script>
-@RenderSection("Scripts", required: false)
+    </script>
+    <!-- //smooth scrolling -->
+    <!-- for bootstrap working -->
+    <script src="js/bootstrap.js"></script>
+    <!-- //for bootstrap working -->
+    <script type="text/javascript" src="js/jquery.mycart.js"></script>
+    @* TODO INCLUDE PRODUCTION BUILD SCRIPTS *@
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>

@@ -17,15 +17,17 @@ namespace AerariumTech.Pharmacy.App
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Secrets = new ConfigurationBuilder().AddUserSecrets<Startup>().Build();
         }
 
         public IConfiguration Configuration { get; }
+        public IConfiguration Secrets { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PharmacyContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<PharmacyContext>()
@@ -65,7 +67,7 @@ namespace AerariumTech.Pharmacy.App
             });
 
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<MessageSenderOptions>(Configuration.GetSection("MessageSender"));
+            services.Configure<MessageSenderOptions>(Secrets.GetSection("MessageSender"));
 
             services.AddMvc();
         }
@@ -93,19 +95,12 @@ namespace AerariumTech.Pharmacy.App
 
             context.InjectDataAsync();
 
-            app.UseSession();
-
             app.UseSecurityHeaders();
             app.UseXForwardedHeaders();
             app.UseAuthentication();
 
             app.UseStaticFiles();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

@@ -21,9 +21,11 @@ namespace AerariumTech.Pharmacy.Domain
         public decimal Price { get; set; }
 
         [Price(ErrorMessage = "Invalid price.")]
-        public decimal? PriceWithoutDiscount { get; set; }
+        public decimal? PriceWithDiscount { get; set; }
         
         public string SerialCode { get; set; }
+
+        public string PathToPicture { get; set; }
 
         public long SupplierId { get; set; }
 
@@ -31,7 +33,6 @@ namespace AerariumTech.Pharmacy.Domain
 
         public ICollection<Batch> Batches { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
-        public ICollection<ProductPicture> ProductPictures { get; set; }
         public ICollection<SaleInvoice> SaleInvoices { get; set; }
     }
 }

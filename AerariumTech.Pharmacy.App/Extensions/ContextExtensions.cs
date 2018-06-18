@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
-using Microsoft.EntityFrameworkCore;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace AerariumTech.Pharmacy.App.Extensions
 {

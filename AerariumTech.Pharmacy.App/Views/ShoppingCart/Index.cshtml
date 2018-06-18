@@ -3,18 +3,22 @@
 
 <table class="table table-hover table-striped">
     <thead>
-    <th>Product</th>
-    <th>Amount</th>
-    <th>Unit price</th>
-    <th>Total</th>
+        <tr>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Unit price</th>
+            <th>Total</th>
+        </tr>
     </thead>
     <tbody>
-    @for (var i = 0; i < Model.Items.Count; i++)
-    {
-        <td>@Model.Items.ElementAt(i).Product.Name</td>
-        <td>@Model.Items.ElementAt(i).Quantity</td>
-        <td>@(Model.Items.ElementAt(i).Product.PriceWithoutDiscount ?? Model.Items.ElementAt(i).Product.Price)</td>
-        <td>@Model.Items.ElementAt(i).GetSubTotal()</td>
-    }
+        @for (var i = 0; i < Model.Items.Count; i++)
+        {
+            <tr>
+                <td>@Model.Items.ElementAt(i).Product.Name</td>
+                <td>@Model.Items.ElementAt(i).Quantity</td>
+                <td>@(Model.Items.ElementAt(i).Product.PriceWithDiscount ?? Model.Items.ElementAt(i).Product.Price)</td>
+                <td>@Model.Items.ElementAt(i).GetSubTotal()</td>
+            </tr>
+        }
     </tbody>
 </table>

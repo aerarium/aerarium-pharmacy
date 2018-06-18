@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
+using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
-using AerariumTech.Pharmacy.Domain;
-using AerariumTech.Pharmacy.Models;
 using AerariumTech.Pharmacy.Models.SalesViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [Route("Dashboard/[controller]/[action]/{id?}")]
+    [AdminOnly]
+    [DashboardRoute]
     public class SalesController : Controller
     {
         private readonly PharmacyContext _context;

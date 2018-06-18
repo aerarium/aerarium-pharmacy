@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model AerariumTech.Pharmacy.Domain.Product
 
 @{
     ViewData["Title"] = "Details";
@@ -8,7 +8,7 @@
 
 <div>
     <h4>Product</h4>
-    <hr/>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -27,6 +27,24 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PriceWithDiscount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PriceWithDiscount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SerialCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PathToPicture)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PathToPicture)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Supplier)

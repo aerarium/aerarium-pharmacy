@@ -1,10 +1,10 @@
-﻿using AerariumTech.Pharmacy.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using AerariumTech.Pharmacy.App.Services;
+using AerariumTech.Pharmacy.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [Authorize(Roles = "Administrator")]
+    [AdminOnly]
     public class DashboardController : Controller
     {
         private readonly PharmacyContext _context;

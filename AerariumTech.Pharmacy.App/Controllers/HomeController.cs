@@ -27,7 +27,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
         public IActionResult FrequentlyAskedQuestions()
         {
-            return null;
+            return View();
         }
 
         public IActionResult Error()

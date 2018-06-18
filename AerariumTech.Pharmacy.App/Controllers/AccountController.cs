@@ -60,6 +60,13 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByEmailAsync(model.User) ??
                            await _userManager.FindByNameAsync(model.User);
+
+                if (!await _userManager.HasPasswordAsync(user))
+                {
+                    // This is in case the user is a new employee (it has no password)
+                    return RedirectToAction(nameof(AddPassword));
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
                     lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -69,6 +76,53 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 }
 
                 if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToAction(nameof(Lockout));
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            }
+
+            return View(model);
+        }
+
+        public IActionResult AddPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPassword(AddPasswordViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            var user = await _userManager.FindByEmailAsync(model.User) ?? await _userManager.FindByNameAsync(model.User);
+
+            if (await _userManager.HasPasswordAsync(user))
+            {
+                _logger.LogInformation($"User {user.Id} already has a password.");
+
+                return RedirectToLocal(returnUrl);
+            }
+
+            var result = await _userManager.AddPasswordAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                var signInResult= await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe,
+                                    lockoutOnFailure: false);
+
+                _logger.LogInformation($"Password added to user {user.Id}.");
+
+                if (signInResult.Succeeded)
+                {
+                    _logger.LogInformation("User logged in.");
+                    return RedirectToLocal(returnUrl);
+                }
+
+                if (signInResult.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToAction(nameof(Lockout));
@@ -204,7 +258,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
 
-            var model = new ResetPasswordViewModel {Code = code};
+            var model = new ResetPasswordViewModel { Code = code };
             return View(model);
         }
 

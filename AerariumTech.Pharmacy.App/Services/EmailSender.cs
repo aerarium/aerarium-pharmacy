@@ -17,16 +17,15 @@ namespace AerariumTech.Pharmacy.App.Services
         public Task SendEmailAsync(string email, string subject, string message)
         {
             return Execute(Options.SendGridKey, subject, message, email);
-        } //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
-
+        } 
         private static Task Execute(string apiKey, string subject, string message, string email)
         {
             var client = new SendGridClient(apiKey);
+
             var emailMessage = new SendGridMessage
             {
                 From = new EmailAddress("contact@aerariumtech.com", "Aerarium Pharmacy"),
                 Subject = subject,
-                PlainTextContent = message,
                 HtmlContent = message
             };
             emailMessage.AddTo(new EmailAddress(email));

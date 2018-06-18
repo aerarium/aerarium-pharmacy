@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,14 @@ namespace AerariumTech.Pharmacy.App.Extensions
             return manager;
         }
 
-        public static async Task<User> FindByCPFAsync(this UserManager<User> manager, string cpf)
+        public static Task<User> FindByCPFAsync(this UserManager<User> manager, string cpf)
         {
-            return await manager.Users.FirstOrDefaultAsync(u => u.Cpf == cpf);
+            return manager.Users.FirstOrDefaultAsync(u => u.Cpf == cpf);
+        }
+
+        public static Task<User> FindByIdAsync(this UserManager<User> manager, long id)
+        {
+            return manager.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         private static async Task CreateRoleIfNotExistsAsync(this RoleManager<Role> manager,
@@ -50,11 +56,13 @@ namespace AerariumTech.Pharmacy.App.Extensions
             {
                 new User
                 {
+                    Name = "Gwydion Pendragon",
                     UserName = "gwyddie",
                     Email = "gwydionp17@gmail.com"
                 },
                 new User
                 {
+                    Name = "Administrator",
                     UserName = "admin",
                     Email = "admin@aerariumtech.com"
                 }
@@ -67,6 +75,8 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 await manager.CreateUserIfNotExistsAsync(user, password);
             }
 
+            await manager.AddToRoleAsync(users.Last(), "Admin");
+                
             return manager;
         }
     }

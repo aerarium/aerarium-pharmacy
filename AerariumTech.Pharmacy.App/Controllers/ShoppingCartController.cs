@@ -20,7 +20,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
         }
 
         public const string Cart = "Cart";
-        
+
         public IActionResult Index()
         {
             return View(SetCartWhenEmpty());
@@ -41,42 +41,91 @@ namespace AerariumTech.Pharmacy.App.Controllers
             {
                 if (amount > qtdStock)
                 {
-                    return View($"Could only add {qtdStock} to cart.");
+                    ViewData["Status"] = $"Could only add {qtdStock} to cart.";
+                    return View(nameof(Index));
                 }
 
-                return View($"{amount} added to cart.");
+                ViewData["Status"] = $"{amount} added to cart.";
+                return View(nameof(Index));
             }
 
+            ViewData["Status"] = "Unable to add to cart!";
             // ReSharper disable once Mvc.ViewNotResolved
-            return View("Not able to add to cart!");
+            return View(nameof(Index));
         }
 
         [HttpPost]
         public Task<IActionResult> RemoveFromCart(Product product)
         {
-            HttpContext.Session.Get<Product>("Cart");
+            var cart = ShoppingCart;
+
+            cart.Items.Remove(cart.Items.FirstOrDefault(e => e.Product.Id == product.Id));
+
+            HttpContext.Response.Cookies.Set(Cart, cart);
 
             return null;
         }
 
-        public Task<IActionResult> ReduceAmountOf(Product product)
+        public IActionResult ReduceAmountOf(Product product, int amount = 1)
         {
-            return null;
+            var cart = ShoppingCart;
+
+            var item = cart.Items.FirstOrDefault(e => e.Product.Id == product.Id);
+
+            if (item != null)
+            {
+                item.Quantity -= amount;
+
+                if (item.Quantity <= 0)
+                {
+                    cart.Items.Remove(item);
+                }
+
+                HttpContext.Response.Cookies.Set(Cart, cart);
+            }
+
+            return View(nameof(Index));
         }
 
-        public Task<IActionResult> IncreaseAmountOf(Product product)
+        public IActionResult IncreaseAmountOf(Product product, int amount)
         {
+            var cart = ShoppingCart;
+            var item = cart.Items.FirstOrDefault(e => e.Product.Id == product.Id);
+
+            if (item == null)
+            {
+                cart.Items.Add(new ShoppingCartItem
+                {
+                    Product = product,
+                    Quantity = 1
+                });
+            }
+            else
+            {
+                item.Quantity += amount;
+            }
+
+            return View(nameof(Index));
+        }
+
+        public Task<IActionResult> Complete()
+        {
+
+
+
             return null;
         }
 
         private ShoppingCart SetCartWhenEmpty()
         {
-            if (HttpContext.Session.Get<ShoppingCart>(Cart) == null)
+            if (HttpContext.Request.Cookies.Get<ShoppingCart>(Cart) == null)
             {
-                HttpContext.Session.Set(Cart, new ShoppingCart());
+                HttpContext.Response.Cookies.Set(Cart, new ShoppingCart());
             }
 
-            return HttpContext.Session.Get<ShoppingCart>(Cart);
+            return HttpContext.Request.Cookies.Get<ShoppingCart>(Cart);
         }
+
+        private ShoppingCart ShoppingCart => HttpContext.Request.Cookies.Get<ShoppingCart>(Cart);
     }
 }

@@ -16,7 +16,7 @@ namespace AerariumTech.Pharmacy.App.Services
         public static decimal GetTotal(this ShoppingCart cart) => cart.Items.Sum(e => e.GetSubTotal());
 
         public static decimal GetSubTotal(this ShoppingCartItem item) =>
-            (item.Product.PriceWithoutDiscount ?? item.Product.Price) * item.Quantity;
+            (item.Product.PriceWithDiscount ?? item.Product.Price) * item.Quantity;
     }
 
     public class ShoppingCartItem

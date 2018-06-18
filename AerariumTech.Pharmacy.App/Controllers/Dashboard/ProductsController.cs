@@ -1,31 +1,48 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Extensions;
+using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
+using AerariumTech.Pharmacy.Models.ProductsViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [Route("Dashboard/[controller]/[action]/{id?}")]
+    [AdminOnly]
+    [DashboardRoute]
     public class ProductsController : Controller
     {
         private readonly PharmacyContext _context;
+        private readonly string _wwwRoot;
+        private readonly string _relativeImagesFolder;
 
-        public ProductsController(PharmacyContext context)
+        public ProductsController(PharmacyContext context, IHostingEnvironment environment)
         {
             _context = context;
+
+            _wwwRoot = environment.WebRootPath;
+            _relativeImagesFolder = "images";
+
+            var absoluteImagesFolder = Path.Combine(_wwwRoot, _relativeImagesFolder);
+            if (!Directory.Exists(absoluteImagesFolder))
+            {
+                Directory.CreateDirectory(absoluteImagesFolder);
+            }
         }
 
-        // GET: Products
+        // GET: Dashboard/Products
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Include(p => p.Supplier);
-            return View(await products.ToListAsync());
+            var pharmacyContext = _context.Products.Include(p => p.Supplier);
+            return View(await pharmacyContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Dashboard/Products/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -33,9 +50,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Supplier)
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include(p => p.Supplier).SingleOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -44,35 +59,48 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(product);
         }
 
-        // GET: Products/Create
+        // GET: Dashboard/Products/Create
         public IActionResult Create()
         {
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, nameof(Supplier.Id), nameof(Supplier.Name));
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dashboard/Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,Name,Description,Price,Batch,Type,SupplierId")]
-            Product product)
+            // [Bind("Name,Description,Price,PriceWithDiscount,SerialCode,PathToPicture,SupplierId")]
+            CreateProductViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                var product = ProductsConverter.Convert(model);
+
+                if (model?.PictureFile?.Length > 0)
+                {
+                    // use Guid to create a new name for the file
+                    var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(model.PictureFile.FileName);
+
+                    using (var fileStream = new FileStream(Path.Combine(_wwwRoot, _relativeImagesFolder, imageName), FileMode.Create))
+                    {
+                        await model.PictureFile.CopyToAsync(fileStream);
+
+                        product.PathToPicture = Path.Combine(_relativeImagesFolder, imageName); // Save only relative path to db
+                    }
+                }
+
+                _context.Products.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["SupplierId"] =
-                new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
-            return View(product);
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, nameof(Supplier.Id), nameof(Supplier.Name),
+                model.SupplierId);
+            return View(model);
         }
 
-        // GET: Products/Edit/5
+        // GET: Dashboard/Products/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -80,24 +108,22 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 return NotFound();
             }
 
-            var product = await _context.Products.SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.SingleOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            ViewData["SupplierId"] =
-                new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, nameof(Supplier.Id), nameof(Supplier.Name),
+                product.SupplierId);
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dashboard/Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id,
-            [Bind("Id,Name,Description,Price,Batch,Type,SupplierId")]
+            [Bind("Id,Name,Description,Price,PriceWithDiscount,SerialCode,PathToPicture,SupplierId")]
             Product product)
         {
             if (id != product.Id)
@@ -125,12 +151,12 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["SupplierId"] =
-                new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
+            ViewData["Suppliers"] = new SelectList(_context.Suppliers, nameof(Supplier.Id), nameof(Supplier.Name),
+                product.SupplierId);
             return View(product);
         }
 
-        // GET: Products/Delete/5
+        // GET: Dashboard/Products/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -140,7 +166,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 
             var product = await _context.Products
                 .Include(p => p.Supplier)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -149,15 +175,15 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(product);
         }
 
-        // POST: Products/Delete/5
+        // POST: Dashboard/Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var product = await _context.Products.SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.SingleOrDefaultAsync(p => p.Id == id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }        
+        }
     }
 }

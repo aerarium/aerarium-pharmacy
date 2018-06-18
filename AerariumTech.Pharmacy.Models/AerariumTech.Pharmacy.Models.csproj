@@ -5,7 +5,4 @@
   <ItemGroup>
     <ProjectReference Include="..\AerariumTech.Pharmacy.Domain\AerariumTech.Pharmacy.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProductsViewModels" />
-  </ItemGroup>
 </Project>

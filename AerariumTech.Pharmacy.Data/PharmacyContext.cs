@@ -17,7 +17,6 @@ namespace AerariumTech.Pharmacy.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<ProductPicture> ProductPictures { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleInvoice> SaleInvoices { get; set; }
         public DbSet<ShippingRate> ShippingRates { get; set; }
@@ -38,7 +37,6 @@ namespace AerariumTech.Pharmacy.Data
             builder
                 .ApplyConfiguration(new ProductConfiguration())
                 .ApplyConfiguration(new ProductCategoryConfiguration())
-                .ApplyConfiguration(new ProductPictureConfiguration())
                 .ApplyConfiguration(new SaleConfiguration())
                 .ApplyConfiguration(new SaleInvoiceConfiguration());
         }

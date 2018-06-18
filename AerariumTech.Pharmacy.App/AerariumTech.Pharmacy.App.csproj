@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>29abdf1d-1be2-44d0-861f-563948af8d26</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
@@ -20,6 +21,7 @@
     <Compile Remove="Models\Person.cs" />
     <Compile Remove="Services\DashboardRoute.cs" />
     <Compile Remove="Services\ApiRoute.cs" />
+    <Compile Remove="Pages\**" />
     <Compile Remove="Validations\**" />
     <Compile Remove="Data\**" />
   </ItemGroup>
@@ -30,18 +32,25 @@
     <ProjectReference Include="..\AerariumTech.Pharmacy.Validations\AerariumTech.Pharmacy.Validations.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Remove="Pages\**" />
     <EmbeddedResource Remove="Validations\**" />
     <EmbeddedResource Remove="Data\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Pages\**" />
     <None Remove="Validations\**" />
     <None Remove="Data\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Pages\**" />
     <Content Remove="Validations\**" />
     <Content Remove="Data\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages" />
+    <None Include="wwwroot\dash\css\bootstrap\bootstrap.min.css.map" />
+    <None Include="wwwroot\dash\css\open-iconic\FONT-LICENSE" />
+    <None Include="wwwroot\dash\css\open-iconic\font\fonts\open-iconic.svg" />
+    <None Include="wwwroot\dash\css\open-iconic\ICON-LICENSE" />
+    <None Include="wwwroot\dash\css\open-iconic\README.md" />
   </ItemGroup>
 </Project>

@@ -1,17 +1,15 @@
 ﻿using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Extensions;
 using AerariumTech.Pharmacy.App.Services;
-using AerariumTech.Pharmacy.Models.CategoriesViewModels;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
-using Microsoft.AspNetCore.Authorization;
+using AerariumTech.Pharmacy.Models.CategoriesViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-// ReSharper disable UnusedParameter.Local
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [Authorize(Roles = "Administrator")]
+    [AdminOnly]
     [DashboardRoute]
     public class CategoriesController : Controller
     {
@@ -22,13 +20,13 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             _context = context;
         }
 
-        // GET: Categories
+        // GET: Dashboard/Categories
         public async Task<IActionResult> Index()
         {
             return View(await _context.Categories.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: Dashboard/Categories/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -46,15 +44,13 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(category);
         }
 
-        // GET: Categories/Create
+        // GET: Dashboard/Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dashboard/Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCategoryViewModel model)
@@ -75,7 +71,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(model);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Dashboard/Categories/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -92,9 +88,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(category);
         }
 
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dashboard/Categories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Description")] Category category)
@@ -108,7 +102,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Categories.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -127,7 +121,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(category);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Dashboard/Categories/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -145,13 +139,14 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(category);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Dashboard/Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var category = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
             _context.Categories.Remove(category);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

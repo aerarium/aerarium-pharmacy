@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,18 +9,19 @@ namespace AerariumTech.Pharmacy.App.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly Data.PharmacyContext _context;
+        private readonly PharmacyContext _context;
 
         public CategoryController(Data.PharmacyContext context)
         {
             _context = context;
         }
 
-        public async Task<object> Index(string id)
+        [Route("[controller]/{category}")]
+        public async Task<IActionResult> Index(string category)
         {
-            if (id == null)
+            if (category == null)
             {
-                return new {error = "not found"};
+                return NotFound();
             }
 
             var products = _context.Products
@@ -27,7 +29,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 .Include(p => p.Batches).ThenInclude(b => b.Stocks)
                 .Where(p =>
                     p.ProductCategories.Any(pc =>
-                        pc.Category.Name == id) // select categories requested
+                        pc.Category.Name == category) // select categories requested
                     && p.Batches.Sum(b => // then select amount which has entered stock
                         b.Stocks.Where(s => s.Type == Type.In).Sum(s => s.Quantity)) -
                     p.Batches.Sum(
@@ -36,10 +38,10 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             if (!await products.AnyAsync())
             {
-                return new {error = "no stock found"};
+                return NotFound();
             }
 
-            return products;
+            return Ok(products);
         }
     }
 }

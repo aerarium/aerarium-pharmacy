@@ -1,28 +1,78 @@
-﻿@inject UserManager<User> UserManager
+﻿@using AerariumTech.Pharmacy.App.Extensions
+@inject UserManager<User> UserManager
 
 @{
-    Layout = null;// "/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<h2>Dashboard</h2>
+<!DOCTYPE html>
+<html>
 
-<div>
-    <h4>Staffers' panel</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="@((string)ViewData["Active"] == "Products" ? "active" : null )">
-                    <a asp-controller="Products" asp-action="Index">Products</a>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>FarmNat - Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="~/dash/styles.css"/>
+</head>
+
+<body>
+<div id="app">
+    <div class="sidebar">
+        <div class="top-row pl-4 navbar navbar-dark">
+            <a class="navbar-brand" href="">FarmNat</a>
+            <button class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="collapsible">
+            <ul class="nav flex-column">
+                <li class="nav-item px-3">
+                    <a class="nav-link active" href="#">
+                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="#">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="#">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                    </a>
                 </li>
             </ul>
         </div>
-        <div class="col-md-9">
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <a asp-controller="Manage" asp-action="Index" class="ml-md-auto">Hello, @UserManager.GetUserAsync(User).Await().Name!</a>
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <input type="submit" value="Log out"/>
+            </form>
+        </div>
+
+        <div class="content px-4">
             @RenderBody()
         </div>
     </div>
 </div>
-
-@section Scripts {
     @RenderSection("Scripts", required: false)
-}
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      var navBarTogglers = document.querySelectorAll('.navbar-toggler, .collapsible');
+      Array.prototype.forEach.call(navBarTogglers, function (toggler) {
+        toggler.addEventListener('click', function () {
+          var els = document.getElementsByClassName('collapsible');
+          Array.prototype.forEach.call(els, function (el) {
+            el.classList.toggle('collapse');
+          });
+        });
+      });
+    });
+    </script>
+</body>
+
+</html>

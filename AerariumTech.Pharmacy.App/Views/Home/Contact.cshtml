@@ -1,17 +1,152 @@
 ﻿@{
     ViewData["Title"] = "Contact";
+    /* ReSharper disable local UnknownCssClass */
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h3>Contato</h3>
+        <h4>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <label>/</label>Contato
+        </h4>
+        <div class="clearfix"> </div>
+    </div>
+</div>
 
-<address>
-    One Microsoft Way<br/>
-    Redmond, WA 98052-6399<br/>
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<!-- contact -->
+<div class="contact">
+    <div class="container">
+        <div class="spec ">
+            <h3>Contato</h3>
+            <div class="ser-t">
+                <b></b>
+                <span>
+                    <i></i>
+                </span>
+                <b class="line"></b>
+            </div>
+        </div>
+        <div class=" contact-w3">
+            <div class="col-md-5 contact-right">
+                <img src="~/images/cac.jpg" class="img-responsive" alt="">
+                @* ReSharper disable once Html.Obsolete *@
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.1467975482456!2d-46.717267184834!3d-23.599067684664174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce56dc144b6d6f%3A0xbe24355bb94cea6e!2sAv.+Albert+Einstein%2C+604+-+Jardim+Leonor%2C+S%C3%A3o+Paulo+-+SP!5e0!3m2!1spt-BR!2sbr!4v1527205385071"
+                        width="445" height="320" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-7 contact-left">
+                <h4></h4>
+                <p> ...</p>
+                <ul class="contact-list">
+                    <li>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> Av. Albert Einstein, 604.
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <a href="mailto:farmnat@mail.com">FarmNat@gmail.com</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-phone" aria-hidden="true"></i>(11) 3596-2546
+                    </li>
+                </ul>
+                <div id="container">
+                    <!--Horizontal Tab-->
+                    <div id="parentHorizontalTab">
+                        <ul class="resp-tabs-list hor_1">
+                            <li>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </li>
+                            <li>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            </li>
+                            <li>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                        <div class="resp-tabs-container hor_1">
+                            <div>
+                                <form onsubmit="e => e.preventDefault()" method="post">
+                                    <input type="text" value="Nome" name="Name" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Name';}"
+                                           required="">
+                                    <input type="email" value="Email" name="Email" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Email';}"
+                                           required="">
+                                    <textarea name="Message..." onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Message...';}" required="">Mensagem...</textarea>
+                                    <input type="submit" value="Enviar">
+                                </form>
+                            </div>
+                            <div>
+                                <div class="map-grid">
+                                    <h5>Endereço:</h5>
+                                    <ul>
+                                        <li>
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>Av. Albert Einstein, 604.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="map-grid">
+                                    <h5>Telefone para Contato:</h5>
+                                    <ul>
+                                        <li>Telefone : (11) 3596-2546</li>
+                                        <li>Celular : (11) 98515-4675</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Plug-in Initialisation-->
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        //Horizontal Tab
+                        $('#parentHorizontalTab').easyResponsiveTabs({
+                            type: 'default', //Types: default, vertical, accordion
+                            width: 'auto', //auto or any width like 600px
+                            fit: true, // 100% fit in a container
+                            tabidentify: 'hor_1', // The tab groups identifier
+// ReSharper disable once UnusedParameter
+                            activate: function (event) { // Callback function if tab is switched
+                                var $tab = $(this);
+                                var $info = $('#nested-tabInfo');
+                                var $name = $('span', $info);
+                                $name.text($tab.text());
+                                $info.show();
+                            }
+                        });
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br/>
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+                        // Child Tab
+                        $('#ChildVerticalTab_1').easyResponsiveTabs({
+                            type: 'vertical',
+                            width: 'auto',
+                            fit: true,
+                            tabidentify: 'ver_1', // The tab groups identifier
+                            activetab_bg: '#fff', // background color for active tabs in this group
+                            inactive_bg: '#F5F5F5', // background color for inactive tabs in this group
+                            active_border_color: '#c1c1c1', // border color for active tabs heads in this group
+                            active_content_border_color: '#5AB1D0' // border color for active tabs contect in this group so that it matches the tab head border
+                        });
+
+                        //Vertical Tab
+                        $('#parentVerticalTab').easyResponsiveTabs({
+                            type: 'vertical', //Types: default, vertical, accordion
+                            width: 'auto', //auto or any width like 600px
+                            fit: true, // 100% fit in a container
+                            closed: 'accordion', // Start closed if in accordion view
+                            tabidentify: 'hor_1', // The tab groups identifier
+// ReSharper disable once UnusedParameter
+                            activate: function (event) { // Callback function if tab is switched
+                                var $tab = $(this);
+                                var $info = $('#nested-tabInfo2');
+                                var $name = $('span', $info);
+                                $name.text($tab.text());
+                                $info.show();
+                            }
+                        });
+                    });
+                </script>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

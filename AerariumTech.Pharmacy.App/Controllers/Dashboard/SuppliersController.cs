@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Extensions;
+using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [Authorize]
-    [Route("Dashboard/[controller]/[action]/{id?}")]
+    [AdminOnly]
+    [DashboardRoute]
     public class SuppliersController : Controller
     {
         private readonly PharmacyContext _context;
@@ -19,13 +19,15 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             _context = context;
         }
 
-        // GET: Suppliers
+        // GET: Dashboard/Suppliers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Suppliers.ToListAsync());
+            var suppliers = await _context.Suppliers.ToListAsync();
+
+            return View(suppliers);
         }
 
-        // GET: Suppliers/Details/5
+        // GET: Dashboard/Suppliers/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -34,7 +36,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             }
 
             var supplier = await _context.Suppliers
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(s => s.Id == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -43,15 +45,13 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(supplier);
         }
 
-        // GET: Suppliers/Create
+        // GET: Dashboard/Suppliers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Suppliers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dashboard/Suppliers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Cnpj,Address,PostCode,Phone,Email")]
@@ -59,7 +59,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         {
             if (ModelState.IsValid)
             {
-                _context.Add(supplier);
+                _context.Suppliers.Add(supplier);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -75,7 +75,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 return NotFound();
             }
 
-            var supplier = await _context.Suppliers.SingleOrDefaultAsync(m => m.Id == id);
+            var supplier = await _context.Suppliers.SingleOrDefaultAsync(s => s.Id == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -84,9 +84,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(supplier);
         }
 
-        // POST: Suppliers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dashboard/Suppliers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Cnpj,Address,PostCode,Phone,Email")]
@@ -120,7 +118,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(supplier);
         }
 
-        // GET: Suppliers/Delete/5
+        // GET: Dashboard/Suppliers/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -128,8 +126,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 return NotFound();
             }
 
-            var supplier = await _context.Suppliers
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var supplier = await _context.Suppliers.SingleOrDefaultAsync(s => s.Id == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -138,12 +135,12 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(supplier);
         }
 
-        // POST: Suppliers/Delete/5
+        // POST: Dashboard/Suppliers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var supplier = await _context.Suppliers.SingleOrDefaultAsync(m => m.Id == id);
+            var supplier = await _context.Suppliers.SingleOrDefaultAsync(s => s.Id == id);
             _context.Suppliers.Remove(supplier);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
