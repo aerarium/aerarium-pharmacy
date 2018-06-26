@@ -1,3 +1,17 @@
-﻿@model IEnumerable<Product>
+﻿@model AerariumTech.Pharmacy.Models.ShoppingCartViewModels.AddToCartViewModel
 
-<div class=""></div>
+@{
+    var product = (Product) ViewBag.Product;
+}
+
+<div>
+    <span>@Html.DisplayFor(item => product.Name)</span>
+    <span>@Html.DisplayFor(p => product.ActualPrice)</span>
+    
+    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart">
+        <input type="hidden" asp-for="ProductId"/>
+        <input type="hidden" asp-for="Quantity"/>
+        <input type="submit" value="Add to cart" />
+    </form>
+
+</div>

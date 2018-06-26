@@ -1,4 +1,6 @@
-﻿namespace AerariumTech.Pharmacy.Domain
+﻿using System.Collections.Generic;
+
+namespace AerariumTech.Pharmacy.Domain
 {
     /// <summary>
     /// <see cref="ShippingRate"/> is an entity related to <see cref="StateProvince"/>s,
@@ -11,5 +13,6 @@
         public long StateProvinceId { get; set; }
         
         public StateProvince StateProvince { get; set; }
+        public ICollection<Sale> Sales { get; set; }
     }
 }

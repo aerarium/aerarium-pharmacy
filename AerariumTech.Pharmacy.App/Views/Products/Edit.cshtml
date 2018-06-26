@@ -29,9 +29,9 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PriceWithDiscount" class="control-label"></label>
-                <input asp-for="PriceWithDiscount" class="form-control" />
-                <span asp-validation-for="PriceWithDiscount" class="text-danger"></span>
+                <label asp-for="PriceWithoutDiscount" class="control-label"></label>
+                <input asp-for="PriceWithoutDiscount" class="form-control" />
+                <span asp-validation-for="PriceWithoutDiscount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SerialCode" class="control-label"></label>
@@ -39,13 +39,8 @@
                 <span asp-validation-for="SerialCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PathToPicture" class="control-label"></label>
-                <input asp-for="PathToPicture" class="form-control" />
-                <span asp-validation-for="PathToPicture" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="SupplierId" class="control-label"></label>
-                <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers"></select>
                 <span asp-validation-for="SupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">

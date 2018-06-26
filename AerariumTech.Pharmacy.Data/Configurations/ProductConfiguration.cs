@@ -10,6 +10,9 @@ namespace AerariumTech.Pharmacy.Data.Configurations
         {
             builder.HasIndex(e => e.Name)
                 .IsUnique();
+
+            builder.HasIndex(e => e.SerialCode)
+                .IsUnique();
         }
     }
 }

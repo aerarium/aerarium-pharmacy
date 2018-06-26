@@ -28,18 +28,38 @@
         <div class="collapsible">
             <ul class="nav flex-column">
                 <li class="nav-item px-3">
-                    <a class="nav-link active" href="#">
-                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    <a class="nav-link active" asp-controller="Dashboard" asp-action="Index">
+                        <span class="oi oi-home" aria-hidden="true"></span> Dashboard
                     </a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link" href="#">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                    <a class="nav-link" asp-controller="Categories" asp-action="Index">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Categories
                     </a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link" href="#">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                    <a class="nav-link" asp-controller="Customers" asp-action="Index">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Customers
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" asp-controller="Employees" asp-action="Index">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Employees
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" asp-controller="Products" asp-action="Index">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Products
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" asp-controller="Sales" asp-action="Index">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Sales
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" asp-controller="Suppliers" asp-action="Index">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Suppliers
                     </a>
                 </li>
             </ul>

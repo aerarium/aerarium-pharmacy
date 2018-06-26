@@ -31,6 +31,9 @@ namespace AerariumTech.Pharmacy.Domain
 
         public Supplier Supplier { get; set; }
 
+        [Price]
+        public decimal ActualPrice => PriceWithDiscount ?? Price;
+
         public ICollection<Batch> Batches { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
         public ICollection<SaleInvoice> SaleInvoices { get; set; }

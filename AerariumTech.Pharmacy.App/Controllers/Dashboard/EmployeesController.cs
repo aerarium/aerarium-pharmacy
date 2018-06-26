@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Extensions;
 using AerariumTech.Pharmacy.App.Services;
-using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
 using AerariumTech.Pharmacy.Models.EmployeesViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -30,14 +31,16 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
-            var employees = users.Where(u =>
-            { // TODO do it can be improved?
-                var task = _userManager.GetRolesAsync(u);
-                task.Wait();
-                var roles = task.Result;
-                return roles.Any();
-            }).ToList();
+            //var employees = users.Where(u =>
+            //{
+            //    var taskky = _userManager.GetRolesAsync(u);
+            //    taskky.Wait();
+            //     var roles = taskky.Result;
+            //    return roles.Any();
+            //}).ToList();
 
+            var task = users.Select(async u => new {User = u, Test = (await _userManager.GetRolesAsync(u)).Any()});
+            var employees = (await Task.WhenAll(task)).Where(u => u.Test).Select(u => u.User);
             return View(employees);
         }
 
@@ -59,10 +62,9 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         }
 
         // GET: Dashboard/Employees/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            ViewData["Roles"] = new MultiSelectList(await _roleManager.Roles.ToListAsync(), nameof(Role.Name),
-                nameof(Role.Name));
+            ViewData["Roles"] = GetRolesList();
 
             return View();
         }
@@ -82,8 +84,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Roles"] = new MultiSelectList(await _roleManager.Roles.ToListAsync(), nameof(Role.Name),
-                nameof(Role.Name), model.Roles.Select(r => _roleManager.FindByNameAsync(r).Await()));
+            ViewData["Roles"] = GetRolesList(model.Roles.Select(r => _roleManager.FindByNameAsync(r)));
             return View(model);
         }
 
@@ -103,11 +104,17 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 
             var model = EmployeesConverter.Convert(employee);
 
-            ViewData["Roles"] = new MultiSelectList(await _roleManager.Roles.ToListAsync(), nameof(Role.Name),
-                nameof(Role.Name),
-                _userManager.GetRolesAsync(employee).Await().Select(r => _roleManager.FindByNameAsync(r)));
+            ViewData["Roles"] =
+                GetRolesList((await _userManager.GetRolesAsync(employee)).Select(r => _roleManager.FindByNameAsync(r)));
             return View(model);
         }
+
+        public MultiSelectList GetRolesList(IEnumerable roles)
+            => new MultiSelectList(_roleManager.Roles, nameof(Role.Name), nameof(Role.Name), roles);
+
+        public MultiSelectList GetRolesList()
+            => new MultiSelectList(_roleManager.Roles, nameof(Role.Name), nameof(Role.Name));
+
 
         // POST: Dashboard/Employees/Edit/5
         [HttpPost]

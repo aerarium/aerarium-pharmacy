@@ -15,6 +15,14 @@ namespace AerariumTech.Pharmacy.Data.Configurations
             builder.HasOne(e => e.Seller)
                 .WithMany(e => e.Sales)
                 .HasForeignKey(e => e.SellerId);
+
+            builder.HasOne(e => e.ShippingRate)
+                .WithMany(e => e.Sales)
+                .HasForeignKey(e => e.ShippingRateId);
+
+            builder.HasOne(e => e.Payment)
+                .WithOne(e => e.Sale)
+                .HasForeignKey<Sale>(e => e.PaymentId);
         }
     }
 }

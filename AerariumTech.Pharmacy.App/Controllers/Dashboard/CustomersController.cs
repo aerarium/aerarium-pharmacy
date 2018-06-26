@@ -24,7 +24,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             _userManager = userManager;
         }
 
-        // GET: Dashboard/Customers
+        // GET: Dashboard/Customers/Index
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();

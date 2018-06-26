@@ -5,12 +5,11 @@ namespace AerariumTech.Pharmacy.Models.AccountViewModels
     public static class AccountConverter
     {
         public static User Convert(RegisterViewModel model)
-        {
-            return new User
+            => new User
             {
-                UserName = model.Name,
+                Name = model.Name,
+                UserName = model.Email,
                 Email = model.Email
             };
-        }
     }
 }

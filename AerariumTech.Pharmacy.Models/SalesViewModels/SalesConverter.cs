@@ -5,7 +5,7 @@ namespace AerariumTech.Pharmacy.Models.SalesViewModels
 {
     public static class SalesConverter
     {
-        public static Sale Convert(this CreateSaleViewModel model)
+        public static Sale Convert(CreateSaleViewModel model)
             => new Sale
             {
                 SaleInvoices = model.ItemSales.Select(item => new SaleInvoice

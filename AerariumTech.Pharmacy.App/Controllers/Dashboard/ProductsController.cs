@@ -86,7 +86,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                     {
                         await model.PictureFile.CopyToAsync(fileStream);
 
-                        product.PathToPicture = Path.Combine(_relativeImagesFolder, imageName); // Save only relative path to db
+                        product.PathToPicture = Path.DirectorySeparatorChar + Path.Combine(_relativeImagesFolder, imageName); // Save only relative path to db
                     }
                 }
 
@@ -116,7 +116,10 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 
             ViewData["Suppliers"] = new SelectList(_context.Suppliers, nameof(Supplier.Id), nameof(Supplier.Name),
                 product.SupplierId);
-            return View(product);
+
+            var model = ProductsConverter.Convert(product);
+
+            return View(model);
         }
 
         // POST: Dashboard/Products/Edit/5
@@ -135,7 +138,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Products.Update(product);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

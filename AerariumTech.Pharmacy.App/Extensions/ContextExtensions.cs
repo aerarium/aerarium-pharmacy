@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
@@ -13,13 +14,15 @@ namespace AerariumTech.Pharmacy.App.Extensions
         public static bool ProductExists(this PharmacyContext context, long id) =>
             context.Products.Any(p => p.Id == id);
 
+        public static bool StockExists(this PharmacyContext context, long id) =>
+            context.Stocks.Any(s => s.Id == id);
+
         public static bool SupplierExists(this PharmacyContext context, long id) =>
             context.Suppliers.Any(e => e.Id == id);
 
         public static void InjectDataAsync(this PharmacyContext context)
         {
-            // Inject categories
-            new List<Category>
+            var categories = new List<Category>
             {
                 new Category {Name = "Alergia"},
                 new Category {Name = "Antibióticos"},
@@ -48,16 +51,22 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 new Category {Name = "Proteção Solar"},
                 new Category {Name = "Tinturas"},
                 new Category {Name = "Unhas"}
-            }.ForEach(c =>
-                {
-                    var category = context.Categories.FirstOrDefault(cn => cn.Name == c.Name);
+            };
 
-                    if (category == null)
+            // Inject categories
+            if (!context.Categories.Any())
+            {
+                categories.ForEach(c =>
                     {
-                        context.Categories.Add(c);
+                        var category = context.Categories.FirstOrDefault(cn => cn.Name == c.Name);
+
+                        if (category == null)
+                        {
+                            context.Categories.Add(c);
+                        }
                     }
-                }
-            );
+                );
+            }
 
             // Inject Brazilian states
             var states = new List<StateProvince>
@@ -91,22 +100,97 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 new StateProvince {Name = "Tocantins", Abbreviation = "TO"}
             };
 
-            states.ForEach(s =>
+            if (!context.StateProvinces.Any())
             {
-                var state = context.StateProvinces.FirstOrDefault(sp =>
-                    sp.Name == s.Name || sp.Abbreviation == s.Abbreviation);
-
-                if (state == null)
+                states.ForEach(s =>
                 {
-                    context.StateProvinces.Add(s);
-                }
-            });
+                    var state = context.StateProvinces.FirstOrDefault(sp =>
+                        sp.Name == s.Name || sp.Abbreviation == s.Abbreviation);
 
-            states.Select(sp => new ShippingRate
+                    if (state == null)
+                    {
+                        context.StateProvinces.Add(s);
+                    }
+                });
+            }
+
+            if (!context.ShippingRates.Any())
             {
-                StateProvince = sp,
-                Price = sp?.Name?.Length % 2 == 1 ? 9.99m : 14.99m,
-            }).ToList().ForEach(sr => context.ShippingRates.Add(sr));
+                states.Select(sp => new ShippingRate
+                {
+                    StateProvince = sp,
+                    Price = sp?.Name?.Length % 2 == 1 ? 19.99m : 24.99m,
+                }).ToList().ForEach(sr => context.ShippingRates.Add(sr));
+            }
+
+            var suppliers = new List<Supplier>
+            {
+                new Supplier
+                {
+                    Name = "Ultrafarma",
+                    Address = "Rua asda",
+                    PostCode = "12837123",
+                    Email = "contact@ultrafarma.com",
+                    Phone = "12391823"
+                }
+            };
+
+            if (!context.Suppliers.Any())
+            {
+                suppliers.ForEach(s => context.Suppliers.Add(s));
+            }
+
+            var products = new List<Product>
+            {
+                new Product
+                {
+                    Name = "Aspirina",
+                    Description = "Remédio para dor de cabeça.",
+                    Price = 15,
+                    PriceWithDiscount = 12,
+                    SerialCode = "18723178",
+                    Supplier = suppliers.FirstOrDefault(s =>
+                        s.Name.Equals("ultrafarma", StringComparison.OrdinalIgnoreCase)),
+                    PathToPicture = "\\images\\936f93a0037c43119885e2554ac6f729.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault(c =>
+                                c.Name.Equals("Dor & Febre", StringComparison.OrdinalIgnoreCase))
+                        }
+                    }
+                }
+            };
+
+            if (!context.Products.Any())
+            {
+                products.ForEach(p => context.Products.Add(p));
+            }
+
+            var batches = Enumerable.Range(0, new Random().Next(1000)).Select(x => new Batch
+            {
+                DateOfFabrication = DateTime.UtcNow.Subtract(TimeSpan.FromDays(new Random().Next(300, 400))),
+                DateOfExpiration = DateTime.UtcNow.Add(TimeSpan.FromDays(new Random().Next(100, 200))),
+                Product = products.ElementAtOrDefault(new Random().Next(products.Count)),
+            }).ToList();
+
+            if (!context.Batches.Any())
+            {
+                batches.ForEach(b => context.Batches.Add(b));
+            }
+
+            var stocks = Enumerable.Range(0, batches.Count * 2).Select(x => new Stock
+            {
+                MovementType = MovementType.In,
+                Quantity = new Random().Next(0, 1000),
+                Batch = batches.ElementAtOrDefault(new Random().Next(batches.Count))
+            }).ToList();
+
+            if (!context.Stocks.Any())
+            {
+                stocks.ForEach(s => context.Stocks.Add(s)); 
+            }
 
             context.SaveChanges();
         }

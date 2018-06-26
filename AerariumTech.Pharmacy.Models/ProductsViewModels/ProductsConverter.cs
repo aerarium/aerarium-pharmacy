@@ -15,5 +15,11 @@ namespace AerariumTech.Pharmacy.Models.ProductsViewModels
                 SupplierId = model.SupplierId
                 // PathToPicture = model?.PictureFile?.Name
             };
+
+        public static Product Convert(EditProductViewModel model)
+            => new Product();
+
+        public static EditProductViewModel Convert(Product model)
+            => new EditProductViewModel();
     }
 }

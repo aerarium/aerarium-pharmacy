@@ -15,6 +15,8 @@ namespace AerariumTech.Pharmacy.Data
 
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentMode> PaymentModes { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Sale> Sales { get; set; }
@@ -29,12 +31,13 @@ namespace AerariumTech.Pharmacy.Data
             base.OnModelCreating(builder);
 
             foreach (var entity in builder.Model.GetEntityTypes())
-            {
+            { // Remove prefix 'AspNet' from tables used by Identity Core
                 entity.Relational().TableName =
                     entity.Relational().TableName.Replace("AspNet", string.Empty);
             }
 
             builder
+                .ApplyConfiguration(new PaymentConfiguration())
                 .ApplyConfiguration(new ProductConfiguration())
                 .ApplyConfiguration(new ProductCategoryConfiguration())
                 .ApplyConfiguration(new SaleConfiguration())

@@ -15,7 +15,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
     {
         private readonly PharmacyContext _context;
 
-        public CategoriesController(PharmacyContext context, object a)
+        public CategoriesController(PharmacyContext context)
         {
             _context = context;
         }

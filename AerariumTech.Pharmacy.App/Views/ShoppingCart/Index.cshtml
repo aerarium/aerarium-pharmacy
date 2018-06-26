@@ -1,24 +1,33 @@
-﻿@using AerariumTech.Pharmacy.App.Services
-@model ShoppingCart
+﻿@model IEnumerable<ShoppingCartItemViewModel>
 
-<table class="table table-hover table-striped">
-    <thead>
+@if (Model.Any())
+{
+    <table class="table table-hover table-striped">
+        <thead>
         <tr>
-            <th>Product</th>
-            <th>Amount</th>
-            <th>Unit price</th>
-            <th>Total</th>
+            <th>@Html.DisplayNameFor(e => e.ProductName)</th>
+            <th>@Html.DisplayNameFor(e => e.Quantity)</th>
+            <th>@Html.DisplayNameFor(e => e.Price)</th>
+            <th>@Html.DisplayNameFor(e => e.SubTotal)</th>
         </tr>
-    </thead>
-    <tbody>
-        @for (var i = 0; i < Model.Items.Count; i++)
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@Model.Items.ElementAt(i).Product.Name</td>
-                <td>@Model.Items.ElementAt(i).Quantity</td>
-                <td>@(Model.Items.ElementAt(i).Product.PriceWithDiscount ?? Model.Items.ElementAt(i).Product.Price)</td>
-                <td>@Model.Items.ElementAt(i).GetSubTotal()</td>
+                <td>@Html.DisplayFor(x => item.ProductName)</td>
+                <td>@Html.DisplayFor(x => item.Quantity)</td>
+                <td>@Html.DisplayFor(x => item.Price)</td>
+                <td>@Html.DisplayFor(x => item.SubTotal)</td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+    <div>
+        <a asp-area="" asp-controller="ShoppingCart" asp-action="Checkout">Proceed to checkout</a>
+    </div>
+}
+else
+{
+    <span>There's no items in your cart!</span>
+}

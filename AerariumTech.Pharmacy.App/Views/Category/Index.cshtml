@@ -1,2 +1,16 @@
-﻿@model object
+﻿@model IEnumerable<Product>
 
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        foreach (var product in Model)
+        {
+            <a asp-controller="Product" asp-action="Index" asp-route-name="@product.Name">@product.Name</a>
+        }
+    }
+    else
+    {
+        <p>No products found!</p>
+    }
+}

@@ -8,7 +8,7 @@
         public long Id { get; set; }
         public long BatchId { get; set; }
         public int Quantity { get; set; }
-        public Type Type { get; set; }
+        public MovementType MovementType { get; set; }
 
         public Batch Batch { get; set; }
     }

@@ -60,11 +60,11 @@ namespace AerariumTech.Pharmacy.App
                 options.SlidingExpiration = true;
             });
 
-            services.AddSession(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.IdleTimeout = TimeSpan.FromMinutes(60);
-            });
+            // services.AddSession(options =>
+            // {
+            //     options.Cookie.HttpOnly = true;
+            //     options.IdleTimeout = TimeSpan.FromMinutes(60);
+            // });
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<MessageSenderOptions>(Secrets.GetSection("MessageSender"));

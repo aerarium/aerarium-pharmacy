@@ -12,9 +12,13 @@ namespace AerariumTech.Pharmacy.Domain
         public DateTime IssuedAt { get; set; }
         public long CustomerId { get; set; }
         public long? SellerId { get; set; }
+        public long? ShippingRateId { get; set; }
+        public long PaymentId { get; set; }
         
         public User Customer { get; set; }
         public User Seller { get; set; }
+        public ShippingRate ShippingRate { get; set; }
+        public Payment Payment { get; set; }
         public ICollection<SaleInvoice> SaleInvoices { get; set; }
     }
 }

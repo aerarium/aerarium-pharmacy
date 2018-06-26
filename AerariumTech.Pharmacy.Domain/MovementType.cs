@@ -1,6 +1,6 @@
 ﻿namespace AerariumTech.Pharmacy.Domain
 {
-    public enum Type
+    public enum MovementType
     {
         In, Out
     }

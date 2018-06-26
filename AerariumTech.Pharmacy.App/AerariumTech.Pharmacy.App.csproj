@@ -47,6 +47,13 @@
     <Content Remove="Data\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\ShoppingCart\_ViewImports.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\ShoppingCart\_ViewImports.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\ShoppingCart\_ViewImports.cshtml" />
     <None Include="wwwroot\dash\css\bootstrap\bootstrap.min.css.map" />
     <None Include="wwwroot\dash\css\open-iconic\FONT-LICENSE" />
     <None Include="wwwroot\dash\css\open-iconic\font\fonts\open-iconic.svg" />

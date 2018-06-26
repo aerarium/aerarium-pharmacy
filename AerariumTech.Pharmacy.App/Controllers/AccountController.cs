@@ -205,7 +205,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            return View(result.Succeeded ? nameof(ConfirmEmail) : nameof(HomeController.Error));
         }
 
         [HttpGet]

@@ -11,37 +11,34 @@ namespace AerariumTech.Pharmacy.App.Controllers
     {
         private readonly PharmacyContext _context;
 
-        public CategoryController(Data.PharmacyContext context)
+        public CategoryController(PharmacyContext context)
         {
             _context = context;
         }
 
-        [Route("[controller]/{category}")]
-        public async Task<IActionResult> Index(string category)
+        [Route("[controller]/{id}")]
+        public async Task<IActionResult> Index(string id)
         {
-            if (category == null)
+            if (id == null)
             {
-                return NotFound();
+                Response.StatusCode = 404;
+                id = string.Empty;
             }
 
-            var products = _context.Products
+            var products = await _context.Products
                 .Include(p => p.ProductCategories).ThenInclude(pc => pc.Category)
                 .Include(p => p.Batches).ThenInclude(b => b.Stocks)
                 .Where(p =>
                     p.ProductCategories.Any(pc =>
-                        pc.Category.Name == category) // select categories requested
+                        pc.Category.Name == id) // select categories requested
                     && p.Batches.Sum(b => // then select amount which has entered stock
-                        b.Stocks.Where(s => s.Type == Type.In).Sum(s => s.Quantity)) -
+                        b.Stocks.Where(s => s.MovementType == MovementType.In).Sum(s => s.Quantity)) -
                     p.Batches.Sum(
                         b => // and subtract by the amount that went out, so we can select only the ones we have
-                            b.Stocks.Where(s => s.Type == Type.Out).Sum(s => s.Quantity)) > 0);
+                            b.Stocks.Where(s => s.MovementType == MovementType.Out).Sum(s => s.Quantity)) > 0)
+                .AsNoTracking().ToListAsync();
 
-            if (!await products.AnyAsync())
-            {
-                return NotFound();
-            }
-
-            return Ok(products);
+            return View(products);
         }
     }
 }

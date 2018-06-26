@@ -18,13 +18,43 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             _context = context;
         }
 
-        // GET: Sales
-        public async Task<IActionResult> Index()
+        #region 
+
+        // GET: Dashboard/Sales/Create
+        public IActionResult Create()
         {
-            return View(await _context.Sales.ToListAsync());
+            return View();
         }
 
-        // GET: Sales/Details/5
+        // POST: Dashboard/Sales/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateSaleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var sale = SalesConverter.Convert(model);
+                _context.Sales.Add(sale);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Read and Delete methods
+
+        // GET: Dashboard/Sales/Index
+        public async Task<IActionResult> Index()
+        {
+            var sales = await _context.Sales.ToListAsync();
+
+            return View(sales);
+        }
+
+        // GET: Dashboard/Sales/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -42,30 +72,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(sale);
         }
 
-        // GET: Dashboard/Sales/Create/5
-        public IActionResult Create()
-        {
-            return View();
-        }
-        
-        // POST: Dashboard/Sales/Create/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateSaleViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(model);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(model);
-        }
-        
-        // GET: Sales/Delete/5
+        // GET: Dashboard/Sales/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -83,7 +90,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             return View(sale);
         }
 
-        // POST: Sales/Delete/5
+        // POST: Dashboard/Sales/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -93,5 +100,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        #endregion
     }
 }
