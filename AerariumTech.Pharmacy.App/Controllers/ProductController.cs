@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
-using AerariumTech.Pharmacy.Domain;
 using AerariumTech.Pharmacy.Models.ShoppingCartViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,23 +17,20 @@ namespace AerariumTech.Pharmacy.App.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string id)
         {
-            return View();
-        }
+            if (id == null)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
 
-        [Route("[controller]/{name}")]
-        public async Task<IActionResult> Index(string name)
-        {
-
-            name = name.Replace("-", " ");
-
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var product =
+                await _context.Products.FirstOrDefaultAsync(
+                    p => p.Name.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             if (product == null)
             {
-                Response.StatusCode = (int) HttpStatusCode.NotFound;
-                return View();
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             ViewData["Product"] = product;
@@ -49,20 +43,18 @@ namespace AerariumTech.Pharmacy.App.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Search(string keywords, int page = 1, int perPage = 1)
+        public async Task<IActionResult> Search(string keywords)
         {
             // No amount filter included, ie, it shows even products without stock
-            var products = _context.Products
+            var products = await _context.Products
                 .Include(p => p.ProductCategories).ThenInclude(pc => pc.Category)
                 .Include(p => p.Supplier)
                 .Where(p => p.Name.Contains(keywords) ||
                             p.ProductCategories.Any(pc => pc.Category.Name.Contains(keywords)) ||
                             p.Description.Contains(keywords) || p.Supplier.Name.Contains(keywords))
-                .OrderBy(p => p.Name).AsNoTracking();
+                .OrderBy(p => p.Name).ToListAsync();
 
-            var model = await PaginatedCollection<Product>.CreateAsync(products, page, perPage);
-
-            return View(model);
+            return View(products);
         }
     }
 }

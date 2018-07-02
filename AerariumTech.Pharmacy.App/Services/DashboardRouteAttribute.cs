@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AerariumTech.Pharmacy.App.Services
 {
@@ -7,14 +6,6 @@ namespace AerariumTech.Pharmacy.App.Services
     {
         public DashboardRouteAttribute() : base("Dashboard/[controller]/[action]/{id?}")
         {
-        }
-    }
-
-    public class AdminOnlyAttribute : AuthorizeAttribute
-    {
-        public AdminOnlyAttribute()
-        {
-            Roles = "Admin";
         }
     }
 }

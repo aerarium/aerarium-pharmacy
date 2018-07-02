@@ -4,15 +4,17 @@ using AerariumTech.Pharmacy.App.Extensions;
 using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
+using static AerariumTech.Pharmacy.Domain.Role;
 using AerariumTech.Pharmacy.Models.CustomersViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [AdminOnly]
     [DashboardRoute]
+    [Authorize(Roles = Clerk + "," + Manager + "," + Pharmacist)]
     public class CustomersController : Controller
     {
         private readonly PharmacyContext _context;
@@ -110,7 +112,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(model.Id))
+                    if (!_context.CustomerExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -125,6 +127,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         }
 
         // GET: Dashboard/Customers/Delete/5
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -144,16 +147,12 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Dashboard/Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var user = await _userManager.FindByIdAsync(id);
             await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CustomerExists(long id)
-        {
-            return _userManager.FindByIdAsync(id) != null;
         }
     }
 }

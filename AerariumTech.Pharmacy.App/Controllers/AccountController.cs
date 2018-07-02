@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Core;
 using AerariumTech.Pharmacy.App.Extensions;
@@ -7,6 +8,7 @@ using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,22 +22,28 @@ namespace AerariumTech.Pharmacy.App.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly string _pathToTemplates;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
+            IHostingEnvironment environment,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _pathToTemplates = Path.Combine(environment.ContentRootPath, "Views", "Templates");
             _logger = logger;
         }
 
         [TempData]
         public string ErrorMessage { get; set; }
+
+        [TempData]
+        public string ReturnUrl { get; set; }
 
         [HttpGet]
         [AllowAnonymous]
@@ -54,20 +62,31 @@ namespace AerariumTech.Pharmacy.App.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            var user = await _userManager.FindByEmailAsync(model.User) ??
+                       await _userManager.FindByNameAsync(model.User);
+
+            if (user == null)
+            {
+                ModelState.TryAddModelError(string.Empty, "Tentativa de login invalida.");
+
+                return View(model);
+            }
+
+            if (!await _userManager.HasPasswordAsync(user))
+            {
+                // This is in case the user is a new employee (it has no password)
+                await _signInManager.SignInAsync(user, isPersistent: model.RememberMe);
+
+                return RedirectToAction(nameof(AddPassword));
+            }
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var user = await _userManager.FindByEmailAsync(model.User) ??
-                           await _userManager.FindByNameAsync(model.User);
-
-                if (!await _userManager.HasPasswordAsync(user))
-                {
-                    // This is in case the user is a new employee (it has no password)
-                    return RedirectToAction(nameof(AddPassword));
-                }
-
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password,
+                    isPersistent: model.RememberMe,
                     lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -87,18 +106,25 @@ namespace AerariumTech.Pharmacy.App.Controllers
             return View(model);
         }
 
-        public IActionResult AddPassword()
+        public async Task<IActionResult> AddPassword(string returnUrl = null)
         {
-            return View();
+            ViewData["ReturnUrl"] = returnUrl;
+
+            var model = new AddPasswordViewModel
+            {
+                User = (await _userManager.GetUserAsync(User)).Email
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPassword(AddPasswordViewModel model, string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnUrl ?? ReturnUrl;
 
-            var user = await _userManager.FindByEmailAsync(model.User) ?? await _userManager.FindByNameAsync(model.User);
+            var user = await _userManager.GetUserAsync(User);
 
             if (await _userManager.HasPasswordAsync(user))
             {
@@ -111,14 +137,14 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             if (result.Succeeded)
             {
-                var signInResult= await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe,
-                                    lockoutOnFailure: false);
+                var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe,
+                    lockoutOnFailure: false);
 
                 _logger.LogInformation($"Password added to user {user.Id}.");
 
                 if (signInResult.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("User already logged in.");
                     return RedirectToLocal(returnUrl);
                 }
 
@@ -166,7 +192,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email, _pathToTemplates, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
@@ -228,12 +254,10 @@ namespace AerariumTech.Pharmacy.App.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
                 }
-
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
+                
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailResetAsync(model.Email, callbackUrl);
+                await _emailSender.SendEmailResetAsync(model.Email, _pathToTemplates, callbackUrl);
 
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
@@ -258,7 +282,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
 
-            var model = new ResetPasswordViewModel { Code = code };
+            var model = new ResetPasswordViewModel {Code = code};
             return View(model);
         }
 

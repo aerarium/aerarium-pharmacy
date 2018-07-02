@@ -1,33 +1,211 @@
-﻿@model IEnumerable<ShoppingCartItemViewModel>
+﻿@model IEnumerable<ShoppingCartViewModel.ShoppingCartItemViewModel>
+@* For some reason, the model must be a IEnumerable so we can use HtmlHelpers *@
+@{
+    var cart = Model as ShoppingCartViewModel;
+}
 
-@if (Model.Any())
-{
-    <table class="table table-hover table-striped">
+<style>
+    .table * tr * {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+</style>
+
+<div class="banner-top">
+</div>
+<div class="table-responsive">
+    <table class="table">
         <thead>
         <tr>
-            <th>@Html.DisplayNameFor(e => e.ProductName)</th>
-            <th>@Html.DisplayNameFor(e => e.Quantity)</th>
-            <th>@Html.DisplayNameFor(e => e.Price)</th>
-            <th>@Html.DisplayNameFor(e => e.SubTotal)</th>
+            <th></th>
+            <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+            <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+            <th>@Html.DisplayNameFor(model => model.Price)</th>
+            <th>@Html.DisplayNameFor(model => model.SubTotal)</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(x => item.ProductName)</td>
-                <td>@Html.DisplayFor(x => item.Quantity)</td>
-                <td>@Html.DisplayFor(x => item.Price)</td>
-                <td>@Html.DisplayFor(x => item.SubTotal)</td>
+                <td style="width: 100px;">
+                    <img alt="" src="@Html.DisplayFor(x => item.ProductPicture)" style="max-width: 100px;"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ProductName)
+                </td>
+                <td>
+                    <form asp-controller="ShoppingCart" asp-action="Index" method="post">
+                        <input asp-for="@item.Quantity"/>
+                        <input type="hidden" asp-for="@item.ProductId"/>
+                        <input type="submit" value=""/> @* Put img of refresh here *@
+                    </form>
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.SubTotal)
+                </td>
             </tr>
         }
         </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3"></td>
+            <th>@Html.DisplayNameFor(model => cart.Total)</th>
+            <td>@Html.DisplayFor(model => cart.Total)</td>
+        </tr>
+        </tfoot>
     </table>
-    <div>
-        <a asp-area="" asp-controller="ShoppingCart" asp-action="Checkout">Proceed to checkout</a>
+</div>
+
+@*
+    <link rel="stylesheet" href="/css/scart.css" type="text/css">
+    <div class="container">
+        <!-- Mainbar-Starts-Here -->
+        <div class="main-bar">
+            <div class="product">
+                <h3>Produto</h3>
+            </div>
+            <div class="quantity">
+                <h3>Quantidade</h3>
+            </div>
+            <div class="price">
+                <h3>Preço</h3>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!-- //Mainbar-Ends-Here -->
+        <!-- Items-Starts-Here -->
+        <div class="items">
+
+            <!-- Item1-Starts-Here -->
+            <div class="item1">
+                <div class="close1">
+                    <!-- Remove-Item -->
+                    <div class="alert-close1"> </div>
+                    <!-- //Remove-Item -->
+                    <div class="image1">
+                        <img src="images/item1.jpg" alt="item1">
+                    </div>
+                    <div class="title1">
+                        <p>Biotônico Fontoura</p>
+                    </div>
+                    <div class="quantity1">
+                        <form action="action_page.php">
+                            <input type="number" name="quantity" min="1" max="10" value="1">
+                        </form>
+                    </div>
+                    <div class="price1">
+                        <p>R$ 15,90</p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!-- //Item1-Ends-Here -->
+            <!-- Item2-Starts-Here -->
+            <div class="item2">
+                <div class="close2">
+                    <!-- Remove-Item -->
+                    <div class="alert-close2"> </div>
+                    <!-- //Remove-Item -->
+                    <div class="image2">
+                        <img src="images/item2.jpg" alt="item2">
+                    </div>
+                    <div class="title2">
+                        <p>ENO Sabor Laranja</p>
+                    </div>
+                    <div class="quantity2">
+                        <form action="action_page.php">
+                            <input type="number" name="quantity" min="1" max="10" value="1">
+                        </form>
+                    </div>
+                    <div class="price2">
+                        <p>R$ 5,99</p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!-- //Item2-Ends-Here -->
+            <!-- Item3-Starts-Here -->
+            <div class="item3">
+                <div class="close3">
+                    <!-- Remove-Item -->
+                    <div class="alert-close3"> </div>
+                    <!-- //Remove-Item -->
+                    <div class="image3">
+                        <img src="images/item3.jpg" alt="item3">
+                    </div>
+                    <div class="title3">
+                        <p>Aspirina</p>
+                    </div>
+                    <div class="quantity3">
+                        <form action="action_page.php">
+                            <input type="number" name="quantity" min="1" max="10" value="1">
+                        </form>
+                    </div>
+                    <div class="price3">
+                        <p>R$ 10,99</p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!-- //Item3-Ends-Here -->
+
+        </div>
+        <!-- //Items-Ends-Here -->
+        <!-- Total-Price-Starts-Here -->
+        <div class="total">
+            <div class="total1">Total</div>
+            <div class="total2">R$ 32,88</div>
+            <div class="clear"></div>
+        </div>
+        <!-- //Total-Price-Ends-Here -->
+        <!-- Checkout-Starts-Here -->
+        <div class="checkout">
+            <div class="add">
+                <a href="#"></a>
+            </div>
+            <div class="checkout-btn">
+                <a href="#">Finalizar Compra</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!-- //Checkout-Ends-Here -->
+
     </div>
-}
-else
-{
-    <span>There's no items in your cart!</span>
-}
+
+    @*
+    @if (Model.Any())
+    {
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(e => e.ProductName)</th>
+                <th>@Html.DisplayNameFor(e => e.Quantity)</th>
+                <th>@Html.DisplayNameFor(e => e.Price)</th>
+                <th>@Html.DisplayNameFor(e => e.SubTotal)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => item.ProductName)</td>
+                    <td>@Html.DisplayFor(x => item.Quantity)</td>
+                    <td>@Html.DisplayFor(x => item.Price)</td>
+                    <td>@Html.DisplayFor(x => item.SubTotal)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div>
+            <a asp-area="" asp-controller="ShoppingCart" asp-action="Checkout">Proceed to checkout</a>
+        </div>
+    }
+    else
+    {
+        <span>There's no items in your cart!</span>
+    }
+*@

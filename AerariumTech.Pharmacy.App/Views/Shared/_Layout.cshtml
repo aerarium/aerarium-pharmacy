@@ -1,9 +1,15 @@
-﻿@{
+﻿@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+
+@{
     // ReSharper disable local UnknownCssClass
     // ReSharper disable local UnusedParameter
     // ReSharper disable local CssBrowserCompatibility
     // ReSharper disable local Html.IdNotResolved
     // ReSharper disable local Html.PathError
+
+    var isSignedIn = SignInManager.IsSignedIn(User);
+    var user = isSignedIn ? (await UserManager.GetUserAsync(User)).Name.Split(' ').FirstOrDefault() : null;
 }
 
 <!DOCTYPE html>
@@ -43,11 +49,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="container">
             <div class="head-t">
                 <ul class="card">
-                    <li>
-                        <a href="wishlist.html">
-                            <i class="fa fa-heart" aria-hidden="true"></i>Favoritos
-                        </a>
-                    </li>
                     @await Html.PartialAsync("_LoginPartial")
                     <li>
                         <a asp-area="" asp-controller="Home" asp-action="About">
@@ -170,7 +171,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             </ul>
                                         </div>
                                         <div class="col-sm-3 w3l">
-                                            <a href="kitchen.html">
+                                            <a href="#">
                                                 <img src="images/me.jpeg" class="img-responsive" alt="">
                                             </a>
                                         </div>
@@ -246,7 +247,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             </ul>
                                         </div>
                                         <div class="col-sm-3 w3l">
-                                            <a href="care.html">
+                                            <a href="#">
                                                 <img src="images/me2.jpg" class="img-responsive" alt="">
                                             </a>
                                         </div>
@@ -322,7 +323,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             </ul>
                                         </div>
                                         <div class="col-sm-3 w3l">
-                                            <a href="hold.html">
+                                            <a href="#">
                                                 <img src="images/me1.png" class="img-responsive" alt="">
                                             </a>
                                         </div>
@@ -360,31 +361,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!--content-->
     <div class="content-top">
         <div class="container">
-            <div class="spec">
-                <h3>Mais Procurados</h3>
-                <div class="ser-t">
-                    <b></b>
-                    <span>
-                        <i></i>
-                    </span>
-                    <b class="line"></b>
-                </div>
-            </div>
-            <div class="tab-head">
-                <nav class="nav-sidebar">
-                    <ul class="nav tabs">
-                        <li class="active">
-                            <a href="#tab1" data-toggle="tab">Medicamentos</a>
-                        </li>
-                        <li class="">
-                            <a href="#tab2" data-toggle="tab">Saude & Bem Estar</a>
-                        </li>
-                        <li class="">
-                            <a href="#tab3" data-toggle="tab">Beleza & Proteção</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            
         </div>
     </div>
     <!--content-->
@@ -403,16 +380,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li>
-                        <a href="kitchen.html">Medicamentos</a>
+                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Medicamentos">Medicamentos</a>
                     </li>
                     <li>
-                        <a href="care.html">Saúde & Bem Estar</a>
+                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Saúde & Bem Estar">Saúde & Bem Estar</a>
                     </li>
                     <li>
-                        <a href="hold.html">Beleza & Proteção</a>
-                    </li>
-                    <li>
-                        <a href="codes.html">Short Codes</a>
+                        <a asp-area="" asp-controller="Category" asp-action="Index" asp-route-id="Beleza & Proteção">Beleza & Proteção</a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Home" asp-action="Contact">Contato</a>
@@ -423,7 +397,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h3>Serviços</h3>
                 <ul>
                     <li>
-                        <a href="terms.html">Termos & Condições</a>
+                        <a asp-area="" asp-controller="Home" asp-action="TermsAndConditions">Termos & Condições</a>
                     </li>
                     <li>
                         <a href="offer.html">Compra Online</a>
@@ -434,11 +408,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="col-md-3 footer-grid">
                 <h3>Minha Conta</h3>
                 <ul>
-                    @await Html.PartialAsync("_LoginPartial")
-                    <li>
-                        <a href="wishlist.html">Favoritos</a>
-                    </li>
-
+                    @if (isSignedIn)
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Manage" asp-action="Index">Seu perfil
+                            </a>
+                        </li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right" style="display: inherit;">
+                                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="Register">Cadastro
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="Login">Login
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -483,8 +475,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="col-md-4 fo-grid1">
                         <p>
-                            <a href="mailto:farmnat@gmail.com">
-                                <i class="fa fa-envelope-o" aria-hidden="true"></i>FarmNat@gmail.com
+                            <a href="mailto:farmnat83@gmail.com">
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>farmnat83@gmail.com
                             </a>
                         </p>
                     </div>

@@ -1,13 +1,15 @@
 ﻿using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
+using static AerariumTech.Pharmacy.Domain.Role;
 using AerariumTech.Pharmacy.Models.SalesViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [AdminOnly]
+    [Authorize(Roles = Clerk + "," + Manager + "," + Pharmacist)]
     [DashboardRoute]
     public class SalesController : Controller
     {
@@ -18,7 +20,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             _context = context;
         }
 
-        #region 
+        #region
 
         // GET: Dashboard/Sales/Create
         public IActionResult Create()
@@ -34,7 +36,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
             if (ModelState.IsValid)
             {
                 var sale = SalesConverter.Convert(model);
-                _context.Sales.Add(sale);
+                await _context.Sales.AddAsync(sale);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -73,6 +75,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         }
 
         // GET: Dashboard/Sales/Delete/5
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -93,6 +96,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Dashboard/Sales/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var sale = await _context.Sales.SingleOrDefaultAsync(m => m.Id == id);

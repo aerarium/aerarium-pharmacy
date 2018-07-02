@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using AerariumTech.Pharmacy.App.Extensions;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
@@ -60,12 +61,6 @@ namespace AerariumTech.Pharmacy.App
                 options.SlidingExpiration = true;
             });
 
-            // services.AddSession(options =>
-            // {
-            //     options.Cookie.HttpOnly = true;
-            //     options.IdleTimeout = TimeSpan.FromMinutes(60);
-            // });
-
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<MessageSenderOptions>(Secrets.GetSection("MessageSender"));
 
@@ -81,19 +76,26 @@ namespace AerariumTech.Pharmacy.App
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                context.Database.EnsureDeletedAsync().Wait();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
             }
 
-            context.Database.EnsureDeletedAsync().Wait();
             context.Database.EnsureCreatedAsync().Wait();
 
             roleManager.EnsureCreatedAppRolesAsync().Wait();
             userManager.EnsureCreatedDevUsersAsync().Wait();
 
-            context.InjectDataAsync();
+            context.InjectData();
+
+            // string triggers;
+            // using (var sr = new StreamReader(Path.Combine(env.ContentRootPath, "Database", "Triggers.sql")))
+            // {
+            //     triggers = sr.ReadToEndAsync().Await();
+            // }
+            // context.Database.ExecuteSqlCommandAsync(triggers).Await();
 
             app.UseSecurityHeaders();
             app.UseXForwardedHeaders();

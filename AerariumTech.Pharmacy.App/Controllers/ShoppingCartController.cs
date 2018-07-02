@@ -23,6 +23,9 @@ namespace AerariumTech.Pharmacy.App.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILogger<ShoppingCartController> _logger;
 
+        [TempData]
+        public string Status { get; set; }
+
         public ShoppingCartController(PharmacyContext context, UserManager<User> userManager,
             ILogger<ShoppingCartController> logger)
         {
@@ -31,6 +34,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
             _logger = logger;
         }
 
+        [NonAction]
         protected virtual async Task<IEnumerable<SelectShippingRateViewModel>> GetShippingRateOptionsAsync()
         {
             var shippingRates = _context.ShippingRates
@@ -57,33 +61,59 @@ namespace AerariumTech.Pharmacy.App.Controllers
             await UpdatePrices(cart);
             var productsId = cart.Items.Select(c => c.ProductId);
 
-            var model = _context.Products.Where(p => productsId.Contains(p.Id)).AsNoTracking().Select(p =>
-                new ShoppingCartItemViewModel
-                {
-                    ProductName = p.Name,
-                    Price = p.ActualPrice,
-                    Quantity = cart.Items.SingleOrDefault(c => c.ProductId == p.Id).Quantity
-                });
+            var model = new ShoppingCartViewModel(_context.Products.Where(p => productsId.Contains(p.Id)).AsNoTracking()
+                .Select(
+                    p => new ShoppingCartViewModel.ShoppingCartItemViewModel
+                    {
+                        ProductId = p.Id,
+                        Quantity = cart.Items.SingleOrDefault(c => c.ProductId == p.Id).Quantity,
+                        Price = p.ActualPrice,
+                        ProductName = p.Name,
+                        ProductPicture = p.PathToPicture
+                    }));
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(AddToCartViewModel model)
+        {
+            var cart = HttpContext.GetShoppingCart();
+            var item = cart.Items.SingleOrDefault(c => c.ProductId == model.ProductId) ?? throw new NullReferenceException(nameof(model) + " must be in cart already");
+            var qtdStock = await _context.Batches.GetAmountInStockAsync(model.ProductId);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == model.ProductId);
+
+            var status = $"Unable to add {product.Name} to cart!";
+
+            if (qtdStock > 0)
+            {
+                var amount = model.Quantity;
+                status = $"{amount} units of {product.Name} added to cart.";
+
+                if (model.Quantity >= qtdStock)
+                {
+                    amount = qtdStock;
+                    status = $"Could only add {amount} {product.Name} to cart.";
+                }
+
+                item.Quantity = amount;
+
+                await UpdatePrices(cart);
+
+                HttpContext.SetShoppingCart(cart);
+            }
+            _logger.LogInformation(status);
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(AddToCartViewModel model)
         {
-            var batches = await _context.Batches
-                .Include(b => b.Stocks)
-                .Where(b => b.ProductId == model.ProductId
-                            && b.DateOfExpiration >=
-                            DateTime.UtcNow) // can only sell the product until its expiration day
-                .ToListAsync();
-            var qtdStock = batches.Sum(b => // ef core couldn't solve this properly, so we're doing it in memory
-                b.Stocks.Where(s => s.MovementType == MovementType.In).Sum(s => s.Quantity) -
-                b.Stocks.Where(s => s.MovementType == MovementType.Out).Sum(s => s.Quantity));
-
             var cart = HttpContext.GetShoppingCart();
-
+            var qtdStock = await _context.Batches.GetAmountInStockAsync(model.ProductId);
             var product = await _context.Products.SingleOrDefaultAsync(p => p.Id == model.ProductId);
 
             var status = $"Unable to add {product.Name} to cart!";
@@ -122,8 +152,6 @@ namespace AerariumTech.Pharmacy.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private const string Status = nameof(Status);
-
         [Authorize]
         public async Task<IActionResult> Checkout()
         {
@@ -131,7 +159,6 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             if (!cart.Items.Any())
             {
-                // If no items in cart, redirect to Index
                 return RedirectToAction(nameof(Index));
             }
 
@@ -141,14 +168,8 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 nameof(SelectShippingRateViewModel.Text));
             ViewData["PaymentModes"] = new SelectList(_context.PaymentModes, nameof(PaymentMode.Id),
                 nameof(PaymentMode.Description));
-            ViewData["Items"] = new MultiSelectList(cart.Items.Select(c => new ShoppingCartItemViewModel
-                {
-                    ProductId = c.ProductId,
-                    Quantity = c.Quantity
-                }), nameof(ShoppingCartItemViewModel.ProductId), nameof(ShoppingCartItemViewModel.ProductName),
-                cart.Items.Select(c => c.ProductId));
 
-            return View(model);
+            return View();
         }
 
         // TODO NOT WORKING

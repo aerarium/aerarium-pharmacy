@@ -8,5 +8,8 @@ namespace AerariumTech.Pharmacy.Domain
     /// </summary>
     public class Role : IdentityRole<long>
     {
+        public const string Clerk = nameof(Clerk);
+        public const string Manager = nameof(Manager);
+        public const string Pharmacist = nameof(Pharmacist);
     }
 }

@@ -9,7 +9,7 @@ namespace AerariumTech.Pharmacy.App.Extensions
         {
             return app.Use((context, next) =>
             {
-                // use built-in xss protection
+                // use browser built-in xss protection
                 context.Response.Headers.Add("X-XSS-Protection", "1;mode=block");
 
                 // avoid clickjacking

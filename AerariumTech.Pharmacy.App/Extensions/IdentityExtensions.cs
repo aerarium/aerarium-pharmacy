@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.Domain;
+using static AerariumTech.Pharmacy.Domain.Role;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +13,8 @@ namespace AerariumTech.Pharmacy.App.Extensions
         public static async Task<RoleManager<Role>> EnsureCreatedAppRolesAsync(
             this RoleManager<Role> manager)
         {
-            var roles = new[] {"Admin"};
-
+            var roles = new[] {Pharmacist, Clerk, Manager};
+            
             foreach (var role in roles)
             {
                 await manager.CreateRoleIfNotExistsAsync(role);
@@ -49,10 +51,18 @@ namespace AerariumTech.Pharmacy.App.Extensions
             }
         }
 
+        private static async Task CreateUserIfNotExistsAsync(this UserManager<User> manager, User user)
+        {
+            if (await manager.FindByEmailAsync(user.Email) == null)
+            {
+                await manager.CreateAsync(user);
+            }
+        }
+
         public static async Task<UserManager<User>> EnsureCreatedDevUsersAsync(
             this UserManager<User> manager)
         {
-            var users = new[]
+            var users = new List<User>
             {
                 new User
                 {
@@ -62,21 +72,35 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 },
                 new User
                 {
-                    Name = "Administrator",
-                    UserName = "admin",
-                    Email = "admin@aerariumtech.com"
+                    Name = "Cintia Vieira",
+                    UserName = "cintiao",
+                    Email = "vieiracintia29@gmail.com"
+                },
+                new User
+                {
+                    Name = "Priscila Vieira",
+                    UserName = "priscilao",
+                    Email = "priscila14souza16@gmail.com"
+                },
+                new User
+                {
+                    Name = "Daniel Doe",
+                    UserName = "dandan",
+                    Email = "danielomiya@gmail.com"
                 }
             };
-
             const string password = "admin@123";
 
-            foreach (var user in users)
+            for (var i = 0; i < users.Count; i++)
             {
-                await manager.CreateUserIfNotExistsAsync(user, password);
+                var user = users.ElementAtOrDefault(i);
+                await manager.CreateAsync(user, password);
+                if (i > 0)
+                {
+                    await manager.AddToRoleAsync(user, i == 1 ? Clerk : i == 2 ? Pharmacist : Manager);
+                }
             }
 
-            await manager.AddToRoleAsync(users.Last(), "Admin");
-                
             return manager;
         }
     }

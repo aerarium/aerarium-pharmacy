@@ -12,7 +12,5 @@ namespace AerariumTech.Pharmacy.Models.ShoppingCartViewModels
         public long? ShippingRateId { get; set; }
 
         public short PaymentModeId { get; set; }
-
-        public IEnumerable<ShoppingCartItemViewModel> Items { get; set; }
     }
 }

@@ -14,24 +14,32 @@ namespace AerariumTech.Pharmacy.Domain
         [Required(ErrorMessage = "Product name is required.")]
         public string Name { get; set; }
 
+        [Display(Name = "Descrição")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Display(Name = "Preço")]
         [Price(ErrorMessage = "Invalid price.")]
         public decimal Price { get; set; }
 
+        [Display(Name = "Preço (com desconto)")]
         [Price(ErrorMessage = "Invalid price.")]
         public decimal? PriceWithDiscount { get; set; }
         
+        [Display(Name = "Código de barras")]
         public string SerialCode { get; set; }
 
+        [Display(Name = "Imagem")]
         public string PathToPicture { get; set; }
 
+        [Display(Name = "Fornecedor")]
         public long SupplierId { get; set; }
 
+        [Display(Name = "Fornecedor")]
         public Supplier Supplier { get; set; }
 
         [Price]
+        [Display(Name = "Preço")]
         public decimal ActualPrice => PriceWithDiscount ?? Price;
 
         public ICollection<Batch> Batches { get; set; }

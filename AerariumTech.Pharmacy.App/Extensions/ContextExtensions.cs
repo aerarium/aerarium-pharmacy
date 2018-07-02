@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Extensions
 {
@@ -10,6 +13,20 @@ namespace AerariumTech.Pharmacy.App.Extensions
     {
         public static bool CategoryExists(this PharmacyContext context, long id) =>
             context.Categories.Any(e => e.Id == id);
+
+        public static bool CustomerExists(this PharmacyContext context, long id) =>
+            context.Users.Any(c => c.Id == id);
+
+        public static bool EmployeeExists(this UserManager<User> userManager, long id)
+        {
+            return Task.Run(() =>
+            {
+                var employee = userManager.FindByIdAsync(id).Await();
+                var roles = userManager.GetRolesAsync(employee).Await();
+
+                return roles.Any();
+            }).Await();
+        }
 
         public static bool ProductExists(this PharmacyContext context, long id) =>
             context.Products.Any(p => p.Id == id);
@@ -20,7 +37,19 @@ namespace AerariumTech.Pharmacy.App.Extensions
         public static bool SupplierExists(this PharmacyContext context, long id) =>
             context.Suppliers.Any(e => e.Id == id);
 
-        public static void InjectDataAsync(this PharmacyContext context)
+        public static async Task<int> GetAmountInStockAsync(this DbSet<Batch> batches, long id)
+        {
+            return (await batches
+                .Include(b => b.Stocks)
+                .Where(b => b.ProductId == id
+                            && b.DateOfExpiration >=
+                            DateTime.UtcNow) // can only sell the product until its expiration day
+                .ToListAsync()).Sum(b => // ef core couldn't solve this properly, so we're doing it in memory
+                b.Stocks.Where(s => s.MovementType == MovementType.In).Sum(s => s.Quantity) -
+                b.Stocks.Where(s => s.MovementType == MovementType.Out).Sum(s => s.Quantity));
+        }
+
+        public static void InjectData(this PharmacyContext context)
         {
             var categories = new List<Category>
             {
@@ -129,9 +158,19 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 {
                     Name = "Ultrafarma",
                     Address = "Rua asda",
-                    PostCode = "12837123",
+                    PostCode = "12837-123",
                     Email = "contact@ultrafarma.com",
-                    Phone = "12391823"
+                    Phone = "(11) 3918-3423",
+                    Cnpj = ""
+                },
+                new Supplier
+                {
+                    Name = "Medley",
+                    Address = "Av. das Nações Unidas, 14401",
+                    PostCode = "04794-000",
+                    Email = "",
+                    Phone = "0800-703 0014",
+                    Cnpj = ""
                 }
             };
 
@@ -145,9 +184,12 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 new Product
                 {
                     Name = "Aspirina",
-                    Description = "Remédio para dor de cabeça.",
-                    Price = 15,
-                    PriceWithDiscount = 12,
+                    Description =
+                        @"A Aspirina é indicada para o alívio sintomático de dores de intensidade leve a moderada,
+como dor de cabeça, dor de dente, dor de garganta, dor menstrual, dor muscular, dor nas articulações,
+dor nas costas, dor da artrite; o alívio sintomático da dor e da febre nos resfriados ou gripes.",
+                    Price = 16.39m,
+                    PriceWithDiscount = 12.71m,
                     SerialCode = "18723178",
                     Supplier = suppliers.FirstOrDefault(s =>
                         s.Name.Equals("ultrafarma", StringComparison.OrdinalIgnoreCase)),
@@ -189,7 +231,30 @@ namespace AerariumTech.Pharmacy.App.Extensions
 
             if (!context.Stocks.Any())
             {
-                stocks.ForEach(s => context.Stocks.Add(s)); 
+                stocks.ForEach(s => context.Stocks.Add(s));
+            }
+
+            var paymentModes = new List<PaymentMode>
+            {
+                new PaymentMode
+                {
+                    Description = "Cartão de crédito"
+                },
+                new PaymentMode
+                {
+                    Description = "Boleto"
+                }
+            };
+
+            if (!context.PaymentModes.Any())
+            {
+                paymentModes.ForEach(pm =>
+                {
+                    if (context.PaymentModes.FirstOrDefault(p => p.Description.Equals(pm.Description)) == null)
+                    {
+                        context.PaymentModes.Add(pm);
+                    }
+                });
             }
 
             context.SaveChanges();

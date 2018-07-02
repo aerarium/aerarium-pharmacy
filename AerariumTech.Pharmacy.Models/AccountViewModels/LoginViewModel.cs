@@ -5,14 +5,16 @@ namespace AerariumTech.Pharmacy.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "Usuário")]
         /*[EmailAddress]*/
         public string User { get; set; }
 
-        [Required]
+        /* [Required] */
+        [Display(Name = "Senha")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Continuar conectado?")]
         public bool RememberMe { get; set; }
     }
 }

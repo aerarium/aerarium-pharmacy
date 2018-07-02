@@ -1,17 +1,18 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Data;
 using AerariumTech.Pharmacy.Domain;
+using static AerariumTech.Pharmacy.Domain.Role;
 using AerariumTech.Pharmacy.Models.StocksViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [AdminOnly]
+    [Authorize(Roles = Clerk + "," + Manager + "," + Pharmacist)]
     [DashboardRoute]
     public class StocksController : Controller
     {
@@ -130,6 +131,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         //}
 
         // GET: Dashboard/Stocks/Delete/5
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -151,6 +153,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Dashboard/Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var stock = await _context.Stocks.SingleOrDefaultAsync(m => m.Id == id);

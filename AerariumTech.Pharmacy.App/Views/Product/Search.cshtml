@@ -1,2 +1,6 @@
 ﻿@model IEnumerable<Product>
 
+@foreach (var product in Model)
+{
+    <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Name">@Html.DisplayFor(x => product.Name)</a>
+}

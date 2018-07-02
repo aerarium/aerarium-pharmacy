@@ -6,7 +6,7 @@
     {
         foreach (var product in Model)
         {
-            <a asp-controller="Product" asp-action="Index" asp-route-name="@product.Name">@product.Name</a>
+            <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Name">@product.Name</a>
         }
     }
     else

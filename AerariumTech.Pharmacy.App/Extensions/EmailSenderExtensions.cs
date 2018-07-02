@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System.IO;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Services;
 
@@ -6,23 +7,43 @@ namespace AerariumTech.Pharmacy.App.Extensions
 {
     public static class EmailSenderExtensions
     {
-        public static async Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)
+        public static async Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string pathToTemplates, string link)
         {
-            var template = "Please, confirm your account by clicking this link: <a href=\"{0}\">link</a>";
+            string template;
+            
+            using (var sr = new StreamReader(Path.Combine(pathToTemplates, "EmailConfirmation.cshtml")))
+            {
+                template = await sr.ReadToEndAsync();
+            }
 
-            // using (var sr = new StreamReader("", Encoding.UTF8))
-            // {
-            //     template = await sr.ReadToEndAsync();
-            // }
-
-            await emailSender.SendEmailAsync(email, "FarmNat - Confirm your email", // TODO: ADD EMAIL TEMPLATES
+            await emailSender.SendEmailAsync(email, "Farm Nat - Confirme seu email",
                 string.Format(template, HtmlEncoder.Default.Encode(link)));
         }
 
-        public static Task SendEmailResetAsync(this IEmailSender emailSender, string email, string link)
+        public static async Task SendEmailResetAsync(this IEmailSender emailSender, string email, string pathToTemplates, string link)
         {
-            return emailSender.SendEmailAsync(email, "Reset Password",
-                $"Please, reset your password by clicking here: <a href=\"{HtmlEncoder.Default.Encode(link)}\">link</a>");
+            string template;
+
+            using (var sr = new StreamReader(Path.Combine(pathToTemplates, "EmailReset.cshtml")))
+            {
+                template = await sr.ReadToEndAsync();
+            }
+
+            await emailSender.SendEmailAsync(email, "Farm Nat - Resetar senha",
+                string.Format(template, HtmlEncoder.Default.Encode(link)));
+        }
+
+        public static async Task SendEmailWelcomeAsync(this IEmailSender emailSender, string email,
+            string pathToTemplates, string link)
+        {
+            string template;
+
+            using (var sr = new StreamReader(Path.Combine(pathToTemplates, "Welcome.cshtml")))
+            {
+                template = await sr.ReadToEndAsync();
+            }
+
+            await emailSender.SendEmailAsync(email, "Farm Nat - Bem vindo!", string.Format(template));
         }
     }
 }

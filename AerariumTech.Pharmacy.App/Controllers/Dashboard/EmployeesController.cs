@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Extensions;
 using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Domain;
+using static AerariumTech.Pharmacy.Domain.Role;
 using AerariumTech.Pharmacy.Models.EmployeesViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
 {
-    [AdminOnly]
+    [Authorize(Roles = Clerk + "," + Manager + "," + Pharmacist)]
     [DashboardRoute]
     public class EmployeesController : Controller
     {
@@ -62,6 +63,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         }
 
         // GET: Dashboard/Employees/Create
+        [Authorize(Roles = Manager)]
         public IActionResult Create()
         {
             ViewData["Roles"] = GetRolesList();
@@ -72,6 +74,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Employees/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Create(
             CreateEmployeeViewModel model)
         {
@@ -89,6 +92,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         }
 
         // GET: Dashboard/Employees/Edit/5
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -119,6 +123,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Dashboard/Employees/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Edit(long id,
             EditEmployeeViewModel model)
         {
@@ -144,7 +149,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(model.Id))
+                    if (!_userManager.EmployeeExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -161,6 +166,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         }
 
         // GET: Dashboard/Employees/Delete/5
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -180,16 +186,12 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Dashboard/Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Manager)]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var employee = await _userManager.FindByIdAsync(id);
             await _userManager.DeleteAsync(employee);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool EmployeeExists(long id)
-        {
-            return _userManager.FindByIdAsync(id) != null;
         }
     }
 }

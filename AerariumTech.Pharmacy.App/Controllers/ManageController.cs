@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using AerariumTech.Pharmacy.App.Core;
 using AerariumTech.Pharmacy.App.Extensions;
@@ -6,6 +7,7 @@ using AerariumTech.Pharmacy.Models.ManageViewModels;
 using AerariumTech.Pharmacy.App.Services;
 using AerariumTech.Pharmacy.Domain;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,17 +21,20 @@ namespace AerariumTech.Pharmacy.App.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly string _pathToTemplates;
         private readonly ILogger<ManageController> _logger;
 
         public ManageController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
+            IHostingEnvironment environment,
             ILogger<ManageController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _pathToTemplates = Path.Combine(environment.ContentRootPath, "Views", "Templates");
             _logger = logger;
         }
 
@@ -94,7 +99,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 }
             }
 
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Seu perfil foi atualizado.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -116,10 +121,9 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-            var email = user.Email;
-            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            await _emailSender.SendEmailConfirmationAsync(user.Email, _pathToTemplates, callbackUrl);
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Email de verificação enviado. Por favor, cheque seu email.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -161,7 +165,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Sua senha foi alterada.";
 
             return RedirectToAction(nameof(ChangePassword));
         }
