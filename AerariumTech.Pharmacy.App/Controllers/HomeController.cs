@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,19 +23,21 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
         public async Task<IActionResult> Index(int? page = null)
         {
-            var validBatches = _context.Products.Include(p => p.Batches).ThenInclude(b => b.Stocks)
-                .Where(p => p.Batches.Any(b => b.DateOfExpiration > DateTime.UtcNow))
-                .AsNoTracking(); // brings all batches of a product with a least one valid batch
+            //var validBatches = _context.Products.Include(p => p.Batches).ThenInclude(b => b.Stocks)
+            //    .Where(p => p.Batches.Any(b => b.DateOfExpiration > DateTime.UtcNow))
+            //    .AsNoTracking(); // brings all batches of a product with a least one valid batch
 
-            var products = validBatches.Where(p =>
-                p.Batches.SelectMany(b => b.Stocks)
-                    .Where(s => s.Batch.DateOfExpiration > DateTime.UtcNow && s.MovementType == MovementType.In)
-                    .Sum(s => s.Quantity)
-                - p.Batches.SelectMany(b => b.Stocks)
-                    .Where(s => s.Batch.DateOfExpiration > DateTime.UtcNow && s.MovementType == MovementType.Out)
-                    .Sum(s => s.Quantity)
-                > 0);
+            //var products = validBatches.Where(p =>
+            //    p.Batches.SelectMany(b => b.Stocks)
+            //        .Where(s => s.Batch.DateOfExpiration > DateTime.UtcNow && s.MovementType == MovementType.In)
+            //        .Sum(s => s.Quantity)
+            //    - p.Batches.SelectMany(b => b.Stocks)
+            //        .Where(s => s.Batch.DateOfExpiration > DateTime.UtcNow && s.MovementType == MovementType.Out)
+            //        .Sum(s => s.Quantity)
+            //    > 0);
 
+            var products = _context.Products.AsNoTracking();
+            
             var model = await PaginatedList<Product>.CreateAsync(products, page ?? 1, 20);
 
             return View(model);

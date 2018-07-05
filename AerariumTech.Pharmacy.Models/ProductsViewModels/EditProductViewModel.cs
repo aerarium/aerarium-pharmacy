@@ -12,7 +12,7 @@ namespace AerariumTech.Pharmacy.Models.ProductsViewModels
         [Display(Name = "Nome")]
         public string Name { get; set; }
 
-        [Display(Name = "Description")]
+        [Display(Name = "Descrição")]
         public string Description { get; set; }
 
         [Price]

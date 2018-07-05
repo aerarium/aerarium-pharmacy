@@ -25,7 +25,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
         [TempData]
         public string Status { get; set; }
-
+        
         public ShoppingCartController(PharmacyContext context, UserManager<User> userManager,
             ILogger<ShoppingCartController> logger)
         {
@@ -63,7 +63,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             var model = new ShoppingCartViewModel(_context.Products.Where(p => productsId.Contains(p.Id)).AsNoTracking()
                 .Select(
-                    p => new ShoppingCartViewModel.ShoppingCartItemViewModel
+                    p => new ShoppingCartItemViewModel
                     {
                         ProductId = p.Id,
                         Quantity = cart.Items.SingleOrDefault(c => c.ProductId == p.Id).Quantity,
@@ -80,7 +80,8 @@ namespace AerariumTech.Pharmacy.App.Controllers
         public async Task<IActionResult> Index(AddToCartViewModel model)
         {
             var cart = HttpContext.GetShoppingCart();
-            var item = cart.Items.SingleOrDefault(c => c.ProductId == model.ProductId) ?? throw new NullReferenceException(nameof(model) + " must be in cart already");
+            var item = cart.Items.SingleOrDefault(c => c.ProductId == model.ProductId) ??
+                       throw new NullReferenceException(nameof(model) + " must be in cart already");
             var qtdStock = await _context.Batches.GetAmountInStockAsync(model.ProductId);
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == model.ProductId);
 
@@ -103,9 +104,30 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
                 HttpContext.SetShoppingCart(cart);
             }
+
             _logger.LogInformation(status);
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFromCart(long productId)
+        {
+            var cart = HttpContext.GetShoppingCart();
+
+            var item = cart.Items.FirstOrDefault(c => c.ProductId == productId);
+
+            if (item != null)
+            {
+                cart.Items.Remove(item);
+            }
+
+            await UpdatePrices(cart);
+
+            HttpContext.SetShoppingCart(cart);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -186,11 +208,12 @@ namespace AerariumTech.Pharmacy.App.Controllers
                 sale.Payment.DateOfExpiration = now.AddMonths(6);
 
                 await _context.Sales.AddAsync(sale);
+
                 await _context.SaveChangesAsync();
 
                 HttpContext.DeleteShoppingCart();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             var options = await GetShippingRateOptionsAsync();

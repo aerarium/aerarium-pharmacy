@@ -1177,9 +1177,11 @@ p.fo-para {
     color: #ABABAB;
 }
 
-.footer-grid ul li a { color: #ABABAB; }
+.footer-grid ul li a,
+.footer-grid ul li form button:hover { color: #ABABAB; }
 
-.footer-grid ul li a:hover { color: #FAB005; }
+.footer-grid ul li a:hover,
+.footer-grid ul li form button:hover { color: #FAB005; }
 
 .copy-right p {
     color: #fff;
@@ -1830,7 +1832,6 @@ a#myTabDrop1 { background: #EAEAEA; }
 }
 
 .key input[type="text"], .key input[type="password"], .key input[type="email"], .key input[type="tel"] {
-    width: 89%;
     padding: 10px 10px;
     font-size: 1em;
     border: none;
@@ -1839,10 +1840,6 @@ a#myTabDrop1 { background: #EAEAEA; }
     color: #999;
     float: left;
     background: none;
-}
-
-.key input::-webkit-input-placeholder, .key input::-moz-placeholder, .key input::placeholder {
-    color: black;
 }
 
 .key i {
@@ -2972,11 +2969,6 @@ span.last {
     .main-agileits {
         width: 90%;
         padding: 1em;
-    }
-
-    .key input[type="text"], .key input[type="password"] {
-        width: 84%;
-        padding: 8px 10px;
     }
 
     .key i { padding: 10px 0px 10px 10px; }

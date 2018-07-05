@@ -1,15 +1,15 @@
 ﻿@model Product
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Deletar";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>Tem certeza que deseja deletar esse produto?</h3>
 <div>
-    <h4>Product</h4>
-    <hr />
+    <h4>@Html.DisplayFor(model => model.Name)</h4>
+
+    <img alt="" style="max-width: 500px; max-height: 500px;" src="@Html.DisplayFor(model => model.PathToPicture)" />
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -42,22 +42,15 @@
             @Html.DisplayFor(model => model.SerialCode)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PathToPicture)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PathToPicture)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Supplier)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Supplier.Name)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
+
+    <form asp-action="Delete" style="margin-bottom: 30px;">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" />
     </form>
 </div>

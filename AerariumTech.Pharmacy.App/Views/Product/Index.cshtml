@@ -3,39 +3,28 @@
     var product = ViewBag.Product as Product;
 }
 
-<div class="single">
-    <div class="container">
-        <div class="single-top-main">
-            <div class="col-md-5 single-top">
-                <div class="single-w3agile">
+<div class="container" style="margin-bottom: 30px;">
+    <div class="single-top-main">
+        <div class="col-md-5 single-top">
+            <div class="single-w3agile">
 
-                    <div id="picture-frame">
-                        <img src="@Html.DisplayFor(p => product.PathToPicture)" alt="" class="img-responsive"/>
-                    </div>
-                    <script src="js/jquery.zoomtoo.js"></script>
-                    <script>
-                        $(function() {
-                            $("#picture-frame").zoomToo({
-                                magnify: 1
-                            });
-                        });
-                    </script>
-
-
+                <div id="picture-frame">
+                    <img src="@Html.DisplayFor(p => product.PathToPicture)" alt="" class="img-responsive"/>
                 </div>
             </div>
-            <div class="col-md-7 single-top-left ">
-                <div class="single-right">
-                    <h3>@Html.DisplayFor(p => product.Name)</h3>
-                    <div class="pr-single">
-                        <p class="reduced ">
-                            <del>@Html.DisplayFor(p => product.Price)</del>@Html.DisplayFor(p => product.ActualPrice)
-                        </p>
-                    </div>
-                    <p class="in-pa">
-                        @Html.DisplayFor(p => product.Description)
+        </div>
+        <div class="col-md-7 single-top-left ">
+            <div class="single-right">
+                <h3>@Html.DisplayFor(p => product.Name)</h3>
+                <div class="pr-single">
+                    <p class="reduced ">
+                        <del>@Html.DisplayFor(p => product.Price)</del>@Html.DisplayFor(p => product.ActualPrice)
                     </p>
-                    <ul class="social-top">
+                </div>
+                <p class="in-pa">
+                    @Html.DisplayFor(p => product.Description)
+                </p>
+                @*<ul class="social-top">
                         <li>
                             <a href="#" class="icon facebook">
                                 <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -60,19 +49,18 @@
                                 <span></span>
                             </a>
                         </li>
-                    </ul>
-                    <form asp-controller="ShoppingCart" asp-action="AddToCart" class="add add-3">
-                        <input type="hidden" asp-for="ProductId"/>
-                        <input type="hidden" asp-for="Quantity"/>
-                        <button class="btn btn-danger my-cart-btn my-cart-b">
-                            Adicionar ao Carrinho
-                        </button>
-                    </form>
-                    <div class="clearfix"> </div>
-                </div>
+                    </ul>*@
+                <form asp-controller="ShoppingCart" asp-action="AddToCart" class="add add-3">
+                    <input type="hidden" asp-for="ProductId"/>
+                    <input type="hidden" asp-for="Quantity"/>
+                    <button class="btn btn-danger my-cart-btn my-cart-b">
+                        Adicionar ao Carrinho
+                    </button>
+                </form>
+                <div class="clearfix"> </div>
             </div>
-            <div class="clearfix"> </div>
         </div>
+        <div class="clearfix"> </div>
     </div>
 </div>
 

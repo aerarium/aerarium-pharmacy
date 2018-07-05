@@ -13,17 +13,27 @@ namespace AerariumTech.Pharmacy.Domain
     /// </summary>
     public class User : IdentityUser<long>
     {
+        [Display(Name = "Nome")]
         public string Name { get; set; }
 
         [CPF]
+        [Display(Name = "CPF")]
         public string Cpf { get; set; }
         
+        [Display(Name = "Endereço")]
         public string Address { get; set; }
 
         [DataType(DataType.PostalCode)]
+        [Display(Name = "CEP")]
         public string PostalCode { get; set; }
 
+        [Display(Name = "Compras")]
         public ICollection<Sale> Purchases { get; set; }
+
+        [Display(Name = "Vendas")]
         public ICollection<Sale> Sales { get; set; } // in case it's an employee
+
+        [Display(Name = "Telefone")]
+        public override string PhoneNumber { get; set; }
     }
 }

@@ -157,7 +157,7 @@ namespace AerariumTech.Pharmacy.App.Extensions
                 new Supplier
                 {
                     Name = "Ultrafarma",
-                    Address = "Rua asda",
+                    Address = "Rua Uau",
                     PostCode = "12837-123",
                     Email = "contact@ultrafarma.com",
                     Phone = "(11) 3918-3423",
@@ -168,7 +168,7 @@ namespace AerariumTech.Pharmacy.App.Extensions
                     Name = "Medley",
                     Address = "Av. das Nações Unidas, 14401",
                     PostCode = "04794-000",
-                    Email = "",
+                    Email = "contact@medley.com",
                     Phone = "0800-703 0014",
                     Cnpj = ""
                 }
@@ -190,9 +190,8 @@ como dor de cabeça, dor de dente, dor de garganta, dor menstrual, dor muscular,
 dor nas costas, dor da artrite; o alívio sintomático da dor e da febre nos resfriados ou gripes.",
                     Price = 16.39m,
                     PriceWithDiscount = 12.71m,
-                    SerialCode = "18723178",
-                    Supplier = suppliers.FirstOrDefault(s =>
-                        s.Name.Equals("ultrafarma", StringComparison.OrdinalIgnoreCase)),
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
                     PathToPicture = "\\images\\936f93a0037c43119885e2554ac6f729.jpg",
                     ProductCategories = new List<ProductCategory>
                     {
@@ -200,7 +199,211 @@ dor nas costas, dor da artrite; o alívio sintomático da dor e da febre nos res
                         {
                             Category = categories.FirstOrDefault(c =>
                                 c.Name.Equals("Dor & Febre", StringComparison.OrdinalIgnoreCase))
+                        },
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault(c => c.Name.Equals("Gripe & Resfriado", StringComparison.OrdinalIgnoreCase))
                         }
+                    }
+                },
+                new Product
+                {
+                    Name = "Biotônico Fontoura 400ml",
+                    Description =
+                        @"O Biotônico Fontoura é um medicamento de uso oral composto por substâncias que fornecem ferro e fósforo,
+os quais são importantes para auxiliar no tratamento da anemia ferropriva. O ferro é um elemento
+constituinte das hemoglobinas que são responsáveis pelo transporte de oxigênio nos seres vivos.
+O fósforo é um mineral necessário para ativar a ação de vitaminas essências, tais como algumas do complexo B.",
+                    Price = 32.4m,
+                    PriceWithDiscount = 27.1m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\468248b1ebc3474e804015d4c6f7ebef.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault(c => c.Name.Equals("Vitaminas & Suplementos", StringComparison.OrdinalIgnoreCase))
+                        },
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault(c => c.Name.Equals("Suplementos Alimentares", StringComparison.OrdinalIgnoreCase))
+                        }
+                    }
+                },
+                new Product
+                {
+                    Name = "Creme Pentear Pantene 240g",
+                    Description =
+                        @"Creme para Pentear Liso Extremo Pantene possui fórmula sem sal com Pró-Vitaminas e micro selantes.
+Protege os cabelos 95% contra danos, repara os danos extremos instantaneamente.",
+                    Price = 15.9m,
+                    PriceWithDiscount = 12.72m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\10a6243f03e449b2baba62f0a92284ed.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault(c => c.Name.Equals("Cabelos", StringComparison.OrdinalIgnoreCase))
+                        }
+                    }
+                },
+                new Product
+                {
+                    Name = "Bandagem Elastica Dorflex Icy Hot",
+                    Description =
+                        @"O Dorflex Icy Hot em contato com a pele, provoca resfriamento do local com posteriormente o aquecimento,
+essa ação diminui a dor. Não utilizar um mesmo adesivo por mais de 8 horas.",
+                    Price = 26.5m,
+                    PriceWithDiscount = 22.25m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\a453d28913c848d2a8e7c8fbc3a4f455.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault()
+                        }
+                    }
+                },
+                new Product
+                {
+                    Name = "Eno Sabor Laranja 100g",
+                    Description =
+                        @"O Sal de Fruta Eno laranja quando dissolvidos em água,
+reagem entre si, produzindo um sal de efeito antiácido, capaz de iniciar a redução da acidez do estômago em 6 segundos.",
+                    Price = 5.2m,
+                    PriceWithDiscount = 2.99m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\c7dab05050b64f1aaf010e1e5882406d.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                    }
+                },
+                new Product
+                {
+                    Name = "Hidratante Nivea 400ml",
+                    Description =
+                        @"O Hidratante Corporal Nivea Soft Milk é enriquecido
+com óleo de amêndoas e proporciona hidratação intensiva que ajuda a reparar até a pele mais seca.",
+                    Price = 15.9m,
+                    PriceWithDiscount = 13.9m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\e2fc0cc86d124089a18407e00311159c.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                    }
+                },
+                new Product
+                {
+                    Name = "Loratamed 30mg",
+                    Description =
+                        @"A redução da acidez do estômago em 6 segundos.",
+                    Price = 10.69m,
+                    PriceWithDiscount = 9.09m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\8b5eae1af23b482f84a765de8657e32a.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                    }
+                },
+                new Product
+                {
+                    Name = "Maalox Plus sabor Cereja",
+                    Description =
+                        @"O Maalox é uma formulação com propriedades antiácidas e antiflatulentas,
+pois contém hidróxido de alumínio, hidróxido de magnésio e simeticona.
+O hidróxido de alumínio e o hidróxido de magnésio neutralizam a acidez gástrica e a simeticona,
+um polímero de sílica, é importante no tratamento da aerofagia. Promovendo a eliminação dos gases excessivos
+acumulados no trato gastrointestinal, que contribuem para o aumento da acidez local.",
+                    Price = 19.72m,
+                    PriceWithDiscount = 18.93m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\f7df753327e8474099cb740257f15b68.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+
+                    }
+                },
+                new Product
+                {
+                    Name = "Malvatricin Spray 50ml",
+                    Description =
+                        @"O Malvatricin Spray é destinado ao tratamento de dor de garganta, afecções da boca, aftas.",
+                    Price = 36.65m,
+                    PriceWithDiscount = 33.04m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\050567a371f34a9bb7cffb48e397a344.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+
+                    }
+                },
+                new Product
+                {
+                    Name = "Polaramine Gotas 20ml",
+                    Description =
+                        @"O Polaramine é um anti-histamínico ou antialérgico,
+que ajuda a reduzir os sintomas da alergia, prevenindo os efeitos da histamina,
+que é uma substância produzida pelo próprio organismo. Sua ação ocorre em 30 minutos e possui duração de até 48 horas.",
+                    Price = 35.9m,
+                    PriceWithDiscount = 26.84m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\3f85e08d189d4d7e90c34dadabcae761.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+                        new ProductCategory
+                        {
+                            Category = categories.FirstOrDefault(c => c.Name.Equals("Alergia", StringComparison.OrdinalIgnoreCase))
+                        }
+                    }
+                },
+                new Product
+                {
+                    Name = "Redoxon Zinco 10g",
+                    Description =
+                        @"A vitamina C é uma importante vitamina hidrossolúvel e antioxidante,
+participando de diversas reações metabólicas no organismo. Por se armazenar em baixas quantidades no corpo humano,
+a vitamina C precisa ser obtida através de fontes externas de forma regular e em quantidade suficiente.",
+                    Price = 20.54m,
+                    PriceWithDiscount = 16.43m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\9883b5e02f884e94a436796c808f1e5e.jpg",
+                    ProductCategories = new List<ProductCategory>{}
+                },
+                new Product
+                {
+                    Name = "Vitergyl C 1g",
+                    Description =
+                        @"Vitergyl C combina em sua formulação a vitamina C (ácido ascórbico) e o zinco,
+dois micronutrientes essenciais que desempenham importantes papéis em inúmeros processos metabólicos e
+atuam de modo complementar para o adequado funcionamento do sistema imunológico. A deficiência de vitamina C e/ou
+zinco pode comprometer o bom funcionamento das defesas do organismo contra doenças. A vitamina C atua no sistema imunológico
+(sistema de defesa contra infecções), sendo necessária para a formação e funcionamento das células responsáveis pelas
+defesas do organismo. É fundamental para a produção de colágeno que promove a cicatrização de feridas e tem importante
+função de barreira contra a entrada de agentes infecciosos (vírus, bactérias, etc.) no organismo, pois o colágeno é parte
+integrante da pele e mucosas, além de atuar no combate aos radicais livres. O zinco complementa a ação da vitamina C
+no sistema imunológico, pois também participa da produção de anticorpos e da formação e funcionamento das células responsáveis
+pela defesa do nosso organismo. O zinco combate os radicais livres e atua na cicatrização de feridas, pois ele é necessário
+para a formação de colágeno.",
+                    Price = 25.53m,
+                    PriceWithDiscount = 14.9m,
+                    SerialCode = Guid.NewGuid().ToString(),
+                    Supplier = suppliers.FirstOrDefault(),
+                    PathToPicture = "\\images\\62f3a51d51d94c17b8b119cdab4c52a4.jpg",
+                    ProductCategories = new List<ProductCategory>
+                    {
+
                     }
                 }
             };

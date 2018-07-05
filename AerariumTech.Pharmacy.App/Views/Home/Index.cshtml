@@ -3,49 +3,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div data-vide-bg="/images/video">
-    <div class="container">
-        <div class="banner-info">
-            <div class="search-form">
-                <form asp-controller="Product" asp-action="Search" method="get">
-                    <input type="text" placeholder="O que deseja encontrar?" name="keywords">
-                    <input type="submit" value=" ">
-                </form>
-            </div>
-        </div>
-
-        <div class="content">
-            @foreach (var item in Model)
-            {
-                <div class="mid-1">
-                    <div class="women">
-                        <h6>
-                            <a asp-controller="Product" asp-action="Index" asp-route-id="@item.Name">@Html.DisplayFor(p => item.Name)</a>
-                        </h6>
-                    </div>
-                    <div class="mid-2">
-                        <p>
-                            <label>@Html.DisplayFor(p => item.Price))</label>
-                            <em class="item_price">@Html.DisplayFor(p => item.ActualPrice)</em>
-                        </p>
-                        <div class="block">
-                            <div class="starbox small ghosting"> </div>
+<div class="container">
+    <div class="con-3wl">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 pro-1">
+                <div class="col-m">
+                    <a class="offer-img" asp-area="" asp-controller="Product" asp-route-id="@item.Name">
+                        <img src="@Html.DisplayFor(x => item.PathToPicture)" class="img-responsive" alt="">
+                    </a>
+                    <div class="mid-1">
+                        <div class="women">
+                            <h6>
+                                <a asp-area="" asp-controller="Product" asp-route-id="@item.Name">@Html.DisplayFor(x => item.Name)</a>
+                            </h6>
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="add">
-                        <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@item.Name" class="btn btn-danger my-cart-btn my-cart-b">Adicionar ao Carrinho</a>
+                        <div class="mid-2">
+                            <p>
+                                <label>@Html.DisplayFor(x => item.Price)</label>
+                                <em class="item_price">@Html.DisplayFor(x => item.ActualPrice)</em>
+                            </p>
+                            <div class="block">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="add add-2">
+                            <a class="btn btn-danger my-cart-btn my-cart-b" asp-area="" asp-controller="Product" asp-route-id="@item.Name">Adicionar ao Carrinho</a>
+                        </div>
                     </div>
                 </div>
-            }
-            @if (Model.HasPreviousPage)
-            {
-                // Page index = page atual
-                // Total Pages = self explanatory
-            }
-            @if (Model.HasNextPage)
-            {
-            }
-        </div>
+            </div>
+        }
+        @if (Model.HasPreviousPage)
+        {
+            // Page index = page atual
+            // Total Pages = self explanatory
+        }
+        @if (Model.HasNextPage)
+        {
+        }
     </div>
 </div>

@@ -73,9 +73,7 @@ namespace AerariumTech.Pharmacy.App.Controllers.Dashboard
         // POST: Dashboard/Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            // [Bind("Name,Description,Price,PriceWithDiscount,SerialCode,PathToPicture,SupplierId")]
-            CreateProductViewModel model)
+        public async Task<IActionResult> Create(CreateProductViewModel model)
         {
             if (ModelState.IsValid)
             {

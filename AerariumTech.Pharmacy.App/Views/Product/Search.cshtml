@@ -1,6 +1,35 @@
 ﻿@model IEnumerable<Product>
 
-@foreach (var product in Model)
-{
-    <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Name">@Html.DisplayFor(x => product.Name)</a>
-}
+<div class="container">
+    <div class="con-3wl">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 pro-1">
+                <div class="col-m">
+                    <a class="offer-img" asp-area="" asp-controller="Product" asp-route-id="@item.Name">
+                        <img src="@Html.DisplayFor(x => item.PathToPicture)" class="img-responsive" alt="">
+                    </a>
+                    <div class="mid-1">
+                        <div class="women">
+                            <h6>
+                                <a asp-area="" asp-controller="Product" asp-route-id="@item.Name">@Html.DisplayFor(x => item.Name)</a>
+                            </h6>
+                        </div>
+                        <div class="mid-2">
+                            <p>
+                                <label>@Html.DisplayFor(x => item.Price)</label>
+                                <em class="item_price">@Html.DisplayFor(x => item.ActualPrice)</em>
+                            </p>
+                            <div class="block">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="add add-2">
+                            <a class="btn btn-danger my-cart-btn my-cart-b" asp-area="" asp-controller="Product" asp-route-id="@item.Name">Adicionar ao Carrinho</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

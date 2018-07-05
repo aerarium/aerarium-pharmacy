@@ -26,12 +26,12 @@
                 <div asp-validation-summary="All"></div>
                 <div class="key">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
-                    <input asp-for="User" placeholder="@Html.DisplayNameFor(x => x.User)"/>
+                    <input asp-for="User" value="Usuário" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Usuário';}"/>
                     <div class="clearfix"></div>
                 </div>
                 <div class="key">
                     <i class="fa fa-lock" aria-hidden="true"></i>
-                    <input asp-for="Password"/>
+                    <input asp-for="Password" value="Password" onfocus="this.value = '';" onblur="if (this.value === '') {this.value = 'Password';}"/>
                     <div class="clearfix"></div>
                 </div>
                 <div class="">

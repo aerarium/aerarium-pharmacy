@@ -26,7 +26,7 @@ namespace AerariumTech.Pharmacy.App.Controllers
 
             var product =
                 await _context.Products.FirstOrDefaultAsync(
-                    p => p.Name.Equals(id, StringComparison.OrdinalIgnoreCase));
+                    p => p.Name.Contains(id));
 
             if (product == null)
             {

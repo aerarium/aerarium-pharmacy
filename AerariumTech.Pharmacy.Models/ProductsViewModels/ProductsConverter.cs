@@ -14,7 +14,7 @@ namespace AerariumTech.Pharmacy.Models.ProductsViewModels
                 Price = model.PriceWithoutDiscount,
                 PriceWithDiscount = model.Price,
                 SerialCode = model.SerialCode,
-                ProductCategories = model?.CategoriesIds.Select(e => new ProductCategory {CategoryId = e}).ToList(),
+                ProductCategories = model?.CategoriesId.Select(e => new ProductCategory {CategoryId = e}).ToList(),
                 SupplierId = model.SupplierId
                 // PathToPicture = model?.PictureFile?.Name
             };
